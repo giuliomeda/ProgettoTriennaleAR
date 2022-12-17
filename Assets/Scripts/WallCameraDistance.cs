@@ -12,6 +12,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(ARPlaneManager))]
 public class WallCameraDistance : MonoBehaviour
 {
+    [SerializeField]
+    ARSession m_ArSession;
 
     [SerializeField]
     private ARCameraManager arCameraManager;
@@ -47,10 +49,11 @@ public class WallCameraDistance : MonoBehaviour
         m_ArPlaneManager = GetComponent<ARPlaneManager>();
 
         startPoint.SetActive(false);
-        
+
+        distanceText.gameObject.SetActive(false);
     }
 
-    public void togglePlanesDetectionAndDestroyPlanes(ARPlane selecetedPlane, Pose hitPose){
+    public void togglePlanesDetectionAndResetSession(ARPlane selecetedPlane){
         m_ArPlaneManager.enabled = !m_ArPlaneManager.enabled;
 
         if (!m_ArPlaneManager.enabled){                                     // se è appena stato selezionato un piano e quindi m_ArPlaneManager è appena stato disattivato (è in pausa la plane detection) allora distruggo tutti i piani tranne quello selezionato dall'utente
@@ -58,13 +61,26 @@ public class WallCameraDistance : MonoBehaviour
                 if (plane != selecetedPlane)
                     plane.gameObject.SetActive(false);
             }
+            startPoint.SetActive(true);
             startPoint.transform.SetPositionAndRotation(selecetedPlane.center, selecetedPlane.transform.rotation);
         }
 
-        else {
-            startPoint.SetActive(false);
+        if (m_ArPlaneManager.enabled){                                     // se il plane detection è appena stato ri-abilitato allora faccio un reset della sessione per far iniziare una nuova scansine dell'ambiente all'utente
+            m_ArSession.Reset();
+            distanceText.gameObject.SetActive(false);
+            startPoint.gameObject.SetActive(false);
         }
 
+    }
+
+    private void calculateDistanceAndDisplay(){
+        if (!m_ArPlaneManager.enabled){
+            distanceText.gameObject.SetActive(true);
+            distanceText.gameObject.transform.position = hits[0].pose.position;
+            distanceText.gameObject.transform.rotation = hits[0].pose.rotation;
+            DistanceWallCamera = Vector3.Distance(selectedPlane.center, arCameraManager.transform.position);
+            distanceText.text = $"Distance: {(Vector3.Distance(selectedPlane.center , arCameraManager.transform.position)).ToString("F2")} meters";
+        }
     }
     
     void Update()
@@ -76,6 +92,10 @@ public class WallCameraDistance : MonoBehaviour
             
             touchPosition = touch.position;
 
+            if (touch.phase == TouchPhase.Began){
+                touchPosition = touch.position;
+
+            }
             if (touch.phase == TouchPhase.Moved){
                 touchPosition = touch.position;
             }
@@ -86,24 +106,12 @@ public class WallCameraDistance : MonoBehaviour
                     {
                         selectedPLaneId = hits[0].trackableId; // ho l'id del piano selezionato
 
-                        startPoint.SetActive(true);
-
                         Pose hitPose = hits[0].pose;
                         
-                        foreach (var item in m_ArPlaneManager.trackables)   //confronto l'id tra tutti i piani trovati e salvo solo quello che mi interessa nella variabile
-                        {
-                            if (item.trackableId == selectedPLaneId){
-                                selectedPlane = item;
-                            }
-                        }
+                        if ((selectedPlane = m_ArPlaneManager.GetPlane(selectedPLaneId)) != null){
 
-                        togglePlanesDetectionAndDestroyPlanes(selectedPlane,hitPose);
-
-                        if (!m_ArPlaneManager.enabled){
-                            /*distanceText.gameObject.transform.position = hits[0].pose.position;
-                            distanceText.gameObject.transform.rotation = hits[0].pose.rotation;*/
-                            DistanceWallCamera = Vector3.Distance(selectedPlane.center, arCameraManager.transform.position);
-                            distanceText.text = $"Distance: {(Vector3.Distance(selectedPlane.center , arCameraManager.transform.position)).ToString("F2")} meters";
+                            togglePlanesDetectionAndResetSession(selectedPlane);
+                            calculateDistanceAndDisplay();
                         }
                     }
             }
@@ -111,9 +119,5 @@ public class WallCameraDistance : MonoBehaviour
             
         }
     }
-
-
-
-
 
 }
