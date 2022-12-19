@@ -61,11 +61,14 @@ public class WallCameraDistance : MonoBehaviour
                 if (plane != selectedPlane)
                     plane.gameObject.SetActive(false);
             }
-            Vector3 VectorForAlignement = new Vector3(arCameraManager.transform.position.x, arCameraManager.transform.position.y, selectedPlane.center.z); //da sistemare, funziona solo se orientato giusto
 
+            Vector3 VectorForAlignement = new Vector3(arCameraManager.transform.position.x, arCameraManager.transform.position.y, selectedPlane.transform.position.z);
+            
             startPoint.SetActive(true);
+
             startPoint.transform.SetPositionAndRotation(VectorForAlignement, arCameraManager.transform.rotation);
             calculateDistanceAndDisplay(VectorForAlignement);
+
         }
 
         if (m_ArPlaneManager.enabled){                                     // se il plane detection è appena stato ri-abilitato allora faccio un reset della sessione per far iniziare una nuova scansine dell'ambiente all'utente
