@@ -16,6 +16,10 @@ public class WallCameraDistance : MonoBehaviour
     ARSession m_ArSession;
 
     [SerializeField]
+
+    ARSessionOrigin m_ARSessionOrigin;
+
+    [SerializeField]
     private ARCameraManager arCameraManager;
 
     [SerializeField]
@@ -61,7 +65,7 @@ public class WallCameraDistance : MonoBehaviour
                 if (plane != selectedPlane)
                     plane.gameObject.SetActive(false);
             }
-
+            m_ARSessionOrigin.MakeContentAppearAt(m_ARSessionOrigin.transform, arCameraManager.transform.position, arCameraManager.transform.rotation);
             Vector3 VectorForAlignement = new Vector3(arCameraManager.transform.position.x, arCameraManager.transform.position.y, selectedPlane.transform.position.z);
             
             startPoint.SetActive(true);

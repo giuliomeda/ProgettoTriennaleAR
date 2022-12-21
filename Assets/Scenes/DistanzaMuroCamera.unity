@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ArSession: {fileID: 775061627}
+  m_ARSessionOrigin: {fileID: 151698388}
   arCameraManager: {fileID: 1062260122}
   distanceText: {fileID: 733561753}
   measurePointPrefab: {fileID: 4037154229513052301, guid: 55ed20981e9a75a40adbf942fde60370, type: 3}
