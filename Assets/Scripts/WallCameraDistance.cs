@@ -70,7 +70,7 @@ public class WallCameraDistance : MonoBehaviour
         distanceText.gameObject.SetActive(false);
     }
 
-    public void togglePlanesDetectionAndResetSession(ARPlane selectedPlane){
+    public void togglePlanesDetectionAndResetSession(){
         m_ArPlaneManager.enabled = !m_ArPlaneManager.enabled;
 
         if (!m_ArPlaneManager.enabled){                                     // se è appena stato selezionato un piano e quindi m_ArPlaneManager è appena stato disattivato (è in pausa la plane detection) allora distruggo tutti i piani tranne quello selezionato dall'utente
@@ -140,7 +140,7 @@ public class WallCameraDistance : MonoBehaviour
                         
                         if ((selectedPlane = m_ArPlaneManager.GetPlane(selectedPLaneId)) != null){
                             
-                            togglePlanesDetectionAndResetSession(selectedPlane);
+                            togglePlanesDetectionAndResetSession();
                             
                         }
                     }
