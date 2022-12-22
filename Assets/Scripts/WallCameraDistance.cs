@@ -44,6 +44,19 @@ public class WallCameraDistance : MonoBehaviour
 
     private ARPlane selectedPlane;
 
+    [SerializeField]
+    private Text Distance;
+
+    [SerializeField]
+    private Text CameraCoord;
+
+    [SerializeField]
+    private Text RefPointCoord;
+
+    [SerializeField]
+    private Text PlaneCoord;
+
+    
     void Awake() 
     {
         startPoint = Instantiate(measurePointPrefab, Vector3.zero, Quaternion.identity);
@@ -85,17 +98,24 @@ public class WallCameraDistance : MonoBehaviour
 
     private void calculateDistanceAndDisplay(Vector3 VectorForAlignement){
         if (!m_ArPlaneManager.enabled){
+            DistanceWallCamera = Vector3.Distance(VectorForAlignement, arCameraManager.transform.position);
+
             distanceText.gameObject.SetActive(true);
             distanceText.gameObject.transform.position = hits[0].pose.position;
             distanceText.gameObject.transform.rotation = arCameraManager.transform.rotation;
-            DistanceWallCamera = Vector3.Distance(VectorForAlignement, arCameraManager.transform.position);
+
+            //print result in the box
+            Distance.text = $"Distance: {DistanceWallCamera}" ;
+            PlaneCoord.text =$"Plane: {selectedPlane.transform.position}";
+            RefPointCoord.text = $"Sphere: {startPoint.transform.position}";
+            //print the 3d text 
             distanceText.text = $"Distance: {DistanceWallCamera.ToString("F2")} meters";
         }
     }
     
     void Update()
     { 
-       
+        CameraCoord.text = $"Camera: {Camera.main.transform.position}";
         if(Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
