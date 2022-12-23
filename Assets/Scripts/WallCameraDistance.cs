@@ -6,6 +6,7 @@ using UnityEngine.XR.ARCore;
 using UnityEngine.XR.ARSubsystems;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(ARRaycastManager))]
 
@@ -13,11 +14,7 @@ using UnityEngine.UI;
 public class WallCameraDistance : MonoBehaviour
 {
     [SerializeField]
-    ARSession m_ArSession;
-
-    [SerializeField]
-
-    ARSessionOrigin m_ARSessionOrigin;
+    private ARSessionOrigin m_ARSessionOrigin;
 
     [SerializeField]
     private ARCameraManager arCameraManager;
@@ -56,49 +53,49 @@ public class WallCameraDistance : MonoBehaviour
     [SerializeField]
     private Text PlaneCoord;
 
-    
+    public void RestartScene(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
     void Awake() 
     {
         startPoint = Instantiate(measurePointPrefab, Vector3.zero, Quaternion.identity);
 
         arRaycastManager = GetComponent<ARRaycastManager>();
 
-        m_ArPlaneManager = GetComponent<ARPlaneManager>();
+        m_ArPlaneManager = GetComponent<ARPlaneManager>();        
 
         startPoint.SetActive(false);
 
         distanceText.gameObject.SetActive(false);
+
     }
 
-    public void togglePlanesDetectionAndResetSession(){
-        m_ArPlaneManager.enabled = !m_ArPlaneManager.enabled;
+    public void stopPlanesDetection(){
+        m_ArPlaneManager.enabled = false;
 
         if (!m_ArPlaneManager.enabled){                                     // se è appena stato selezionato un piano e quindi m_ArPlaneManager è appena stato disattivato (è in pausa la plane detection) allora distruggo tutti i piani tranne quello selezionato dall'utente
             foreach(var plane in m_ArPlaneManager.trackables){
                 if (plane != selectedPlane)
                     plane.gameObject.SetActive(false);
             }
-            m_ARSessionOrigin.MakeContentAppearAt(m_ARSessionOrigin.transform, arCameraManager.transform.position, arCameraManager.transform.rotation);
+            
+            calculateDistanceAndDisplay();
+
+        }
+     
+    }
+
+    private void calculateDistanceAndDisplay(){
+        if (!m_ArPlaneManager.enabled){
+
+            m_ARSessionOrigin.MakeContentAppearAt(m_ARSessionOrigin.transform, arCameraManager.transform.position, arCameraManager.transform.rotation); //faccio in modo di settare la posizione della camera nell'origine
+
             Vector3 VectorForAlignement = new Vector3(arCameraManager.transform.position.x, arCameraManager.transform.position.y, selectedPlane.transform.position.z);
             
             startPoint.SetActive(true);
-
             startPoint.transform.SetPositionAndRotation(VectorForAlignement, arCameraManager.transform.rotation);
-            calculateDistanceAndDisplay(VectorForAlignement);
 
-        }
-
-        if (m_ArPlaneManager.enabled){                                     // se il plane detection è appena stato ri-abilitato allora faccio un reset della sessione per far iniziare una nuova scansine dell'ambiente all'utente
-            m_ArSession.Reset();
-            distanceText.gameObject.SetActive(false);
-            startPoint.gameObject.SetActive(false);
-        }
-
-    }
-
-    private void calculateDistanceAndDisplay(Vector3 VectorForAlignement){
-        if (!m_ArPlaneManager.enabled){
-            DistanceWallCamera = Vector3.Distance(VectorForAlignement, arCameraManager.transform.position);
+            DistanceWallCamera = Vector3.Distance(VectorForAlignement, arCameraManager.transform.position); // calcolo la distanza
 
             distanceText.gameObject.SetActive(true);
             distanceText.gameObject.transform.position = hits[0].pose.position;
@@ -115,7 +112,7 @@ public class WallCameraDistance : MonoBehaviour
     
     void Update()
     { 
-        CameraCoord.text = $"Camera: {Camera.main.transform.position}";
+        CameraCoord.text = $"Camera: {Camera.main.transform.position}";     //aggiorno le coordinate della camera ogni frame
         if(Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -140,7 +137,7 @@ public class WallCameraDistance : MonoBehaviour
                         
                         if ((selectedPlane = m_ArPlaneManager.GetPlane(selectedPLaneId)) != null){
                             
-                            togglePlanesDetectionAndResetSession();
+                            stopPlanesDetection();
                             
                         }
                     }
@@ -148,6 +145,7 @@ public class WallCameraDistance : MonoBehaviour
             else return;
             
         }
+        
     }
 
 }
