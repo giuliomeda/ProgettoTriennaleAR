@@ -113,6 +113,7 @@ public class WallCameraDistance : MonoBehaviour
     void Update()
     { 
         CameraCoord.text = $"Camera: {Camera.main.transform.position}";     //aggiorno le coordinate della camera ogni frame
+        m_ArPlaneManager.requestedDetectionMode = UnityEngine.XR.ARSubsystems.PlaneDetectionMode.Vertical; // da verificare, qui imposto ogni frame la detection mode
         if(Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
