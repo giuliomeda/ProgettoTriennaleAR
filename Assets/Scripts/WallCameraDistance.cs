@@ -25,6 +25,15 @@ public class WallCameraDistance : MonoBehaviour
     [SerializeField]
     private GameObject measurePointPrefab;
 
+    [SerializeField]
+    private GameObject instructionCanvas;
+
+    [SerializeField]
+    private Button dismissButton;
+
+    [SerializeField]
+    private GameObject resultBox;
+
     private float DistanceWallCamera;
 
     private ARRaycastManager arRaycastManager;
@@ -68,8 +77,10 @@ public class WallCameraDistance : MonoBehaviour
 
         distanceText.gameObject.SetActive(false);
 
-    }
+        dismissButton.onClick.AddListener(Dismiss);
 
+    }
+    private void Dismiss() => instructionCanvas.SetActive(false);
     public void stopPlanesDetection(){
         m_ArPlaneManager.enabled = false;
 
@@ -111,7 +122,15 @@ public class WallCameraDistance : MonoBehaviour
     }
     
     void Update()
-    { 
+    {   
+        if (instructionCanvas.gameObject.activeSelf){
+            return; 
+        }
+        else{
+
+        resultBox.gameObject.SetActive(true);
+
+
         CameraCoord.text = $"Camera: {Camera.main.transform.position}";     //aggiorno le coordinate della camera ogni frame
         m_ArPlaneManager.requestedDetectionMode = UnityEngine.XR.ARSubsystems.PlaneDetectionMode.Vertical; // da verificare, qui imposto ogni frame la detection mode
         if(Input.touchCount > 0)
@@ -145,6 +164,7 @@ public class WallCameraDistance : MonoBehaviour
             }
             else return;
             
+        }
         }
         
     }
