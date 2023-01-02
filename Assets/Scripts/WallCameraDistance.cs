@@ -128,26 +128,26 @@ public class WallCameraDistance : MonoBehaviour
         }
         else{
 
-        resultBox.gameObject.SetActive(true);
+            resultBox.gameObject.SetActive(true);
 
 
-        CameraCoord.text = $"Camera: {Camera.main.transform.position}";     //aggiorno le coordinate della camera ogni frame
-        m_ArPlaneManager.requestedDetectionMode = UnityEngine.XR.ARSubsystems.PlaneDetectionMode.Vertical; // da verificare, qui imposto ogni frame la detection mode
-        if(Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
+            CameraCoord.text = $"Camera: {Camera.main.transform.position}";     //aggiorno le coordinate della camera ogni frame
+
+            if(Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
             
-            touchPosition = touch.position;
-
-            if (touch.phase == TouchPhase.Began){
                 touchPosition = touch.position;
 
-            }
-            if (touch.phase == TouchPhase.Moved){
-                touchPosition = touch.position;
-            }
+                if (touch.phase == TouchPhase.Began){
+                    touchPosition = touch.position;
 
-            if (touch.phase == TouchPhase.Ended){
+                }
+                if (touch.phase == TouchPhase.Moved){
+                    touchPosition = touch.position;
+                }
+
+                if (touch.phase == TouchPhase.Ended){
 
                     if(arRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
                     {
@@ -161,10 +161,9 @@ public class WallCameraDistance : MonoBehaviour
                             
                         }
                     }
-            }
-            else return;
+                }
             
-        }
+            }
         }
         
     }
