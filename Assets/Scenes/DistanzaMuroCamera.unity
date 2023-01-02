@@ -297,6 +297,7 @@ MonoBehaviour:
   measurePointPrefab: {fileID: 4037154229513052301, guid: 55ed20981e9a75a40adbf942fde60370, type: 3}
   instructionCanvas: {fileID: 1106105807}
   dismissButton: {fileID: 1641448123}
+  continueButton: {fileID: 1879112763}
   resultBox: {fileID: 570821569}
   Distance: {fileID: 1351399583}
   CameraCoord: {fileID: 1015978722}
