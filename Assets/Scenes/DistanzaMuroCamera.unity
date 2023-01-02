@@ -1677,12 +1677,12 @@ MonoBehaviour:
     il muro da cui si desidera iniziare
 
 
-    3.Seleziona il piano che ricopre il
-    muro desiderato
+    3. Mantieni il device in posizione
+    verticale e seleziona il piano che individua il muro desiderato
 
 
-    4. Per ripetere la misura premi il tasto Restar in alto
-    a destra '
+    4. Per
+    ripetere la misura premi il tasto Restart in alto a destra '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
