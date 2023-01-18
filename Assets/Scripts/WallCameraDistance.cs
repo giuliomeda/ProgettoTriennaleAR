@@ -126,7 +126,7 @@ public class WallCameraDistance : MonoBehaviour
     private void calculateDistanceAndDisplay(){
         if (!m_ArPlaneManager.enabled){
             if (indexOfDistanceArray == 0){
-                m_ARSessionOrigin.MakeContentAppearAt(m_ARSessionOrigin.transform, arCameraManager.transform.position, arCameraManager.transform.rotation); //faccio in modo di settare la posizione della camera nell'origine
+                m_ARSessionOrigin.MakeContentAppearAt(m_ARSessionOrigin.transform, arCameraManager.transform.position, arCameraManager.transform.rotation); //faccio in modo di settare la posizione della camera nell'origine, rotazinone????
 
                 Vector3 VectorForAlignement = new Vector3(arCameraManager.transform.position.x, arCameraManager.transform.position.y, firstSelectedPlane.transform.position.z);
             
@@ -135,16 +135,10 @@ public class WallCameraDistance : MonoBehaviour
 
                 DistanceWallCamera[indexOfDistanceArray] = Vector3.Distance(VectorForAlignement, arCameraManager.transform.position); // calcolo la distanza
 
-                /*distanceText.gameObject.SetActive(true);
-                distanceText.gameObject.transform.position = hits[0].pose.position;
-                distanceText.gameObject.transform.rotation = arCameraManager.transform.rotation;*/
-
                 //print result in the box
                 Distance.text = $"Distance: {DistanceWallCamera[indexOfDistanceArray]}" ;
                 PlaneCoord.text =$"Plane: {firstSelectedPlane.transform.position}";
                 RefPointCoord.text = $"Sphere: {startPoint.transform.position}";
-                //print the 3d text 
-                //distanceText.text = $"Distance: {DistanceWallCamera[indexOfDistanceArray].ToString("F2")} meters";
                 
                 continueButton.gameObject.SetActive(true);
                 
@@ -160,16 +154,11 @@ public class WallCameraDistance : MonoBehaviour
 
                 DistanceWallCamera[indexOfDistanceArray] = Vector3.Distance(VectorForAlignement, arCameraManager.transform.position); // calcolo la distanza
 
-                /*distanceText.gameObject.SetActive(true);
-                distanceText.gameObject.transform.position = hits[0].pose.position;
-                distanceText.gameObject.transform.rotation = arCameraManager.transform.rotation;*/
-
                 //print result in the box
                 Distance.text = $"Distance: {DistanceWallCamera[indexOfDistanceArray]}" ;
                 PlaneCoord.text =$"Plane: {secondSelectedPlane.transform.position}";
                 RefPointCoord.text = $"Sphere: {endPoint.transform.position}";
-                //print the 3d text 
-                //distanceText.text = $"Distance: {DistanceWallCamera[indexOfDistanceArray].ToString("F2")} meters";
+                
                 
             }
         }
