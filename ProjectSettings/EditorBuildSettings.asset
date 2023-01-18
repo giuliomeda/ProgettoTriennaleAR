@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/VarianteMisura.unity
+    guid: 8ff429f3d3d3c1240afcf1f06fade4aa
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 7118bce5e9e71a94cbc2f925d4febe2a, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: b24b9844f6b13e04e9c2b76781ca0c9a, type: 2}
