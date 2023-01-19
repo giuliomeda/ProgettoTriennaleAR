@@ -5,6 +5,7 @@ using System.IO;
 
 public class WriteResultIntoFile : MonoBehaviour
 {
+    public static string filename = "dimensionfile";
     public static void WriteFloatArray(float[] f, string filename){
         string path = Application.persistentDataPath + "/" + filename + ".csv";
 
