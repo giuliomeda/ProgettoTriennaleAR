@@ -45,6 +45,50 @@ public class RoomDimensionsController : MonoBehaviour
         WriteResultIntoFile.WriteFloat(dimensions.width,WriteResultIntoFile.filename);
     }
 
+    public static void calculateMinimumDistance(){
+        dimensions.lenght = minimalLenght();
+        dimensions.width =  minimalWidth();
+
+        WriteResultIntoFile.WriteFloat(dimensions.lenght,WriteResultIntoFile.filename);
+        WriteResultIntoFile.WriteFloat(dimensions.width,WriteResultIntoFile.filename);
+
+        
+    }
+
+    private static float minimalLenght(){
+
+        float lenght = float.MaxValue;
+        foreach (Vector3 firstPlanePoint in walls[0].boundary){
+            // Iterate through all points on the second plane
+            foreach (Vector3 secondPlanePoint in walls[1].boundary)
+            {
+                // Calculate the distance between the two points
+                float distance = Vector3.Distance(firstPlanePoint, secondPlanePoint);
+                // Update the minimal distance if the current distance is smaller
+                lenght = Mathf.Min(lenght, distance);
+            }
+        } 
+        return lenght;
+
+    }
+
+    private static float minimalWidth(){
+
+        float width = float.MaxValue;
+        foreach (Vector3 firstPlanePoint in walls[2].boundary){
+            // Iterate through all points on the second plane
+            foreach (Vector3 secondPlanePoint in walls[3].boundary)
+            {
+                // Calculate the distance between the two points
+                float distance = Vector3.Distance(firstPlanePoint, secondPlanePoint);
+                // Update the minimal distance if the current distance is smaller
+                width = Mathf.Min(width, distance);
+            }
+        } 
+        return width;
+
+    }
+
     private static void controlWalls(){
 
         if (walls.Count !=4 )

@@ -69,7 +69,7 @@ public class WallDetection : MonoBehaviour
         resetSceneButton.onClick.AddListener(resetScan);
     }
 
-    void togglePlaneDetection(){
+    private void togglePlaneDetection(){
         m_ARPlaneManager.enabled = false;
 
         if (!m_ARPlaneManager.enabled){
@@ -83,7 +83,7 @@ public class WallDetection : MonoBehaviour
         return;
     }
 
-    public void setOriginAndStartScan(){
+    private void setOriginAndStartScan(){
         startScanButton.gameObject.SetActive(false);
         m_ARSessionOrigin.MakeContentAppearAt(m_ARSessionOrigin.transform, m_ARCameraManager.transform.position, m_ARCameraManager.transform.rotation); //faccio in modo di settare la posizione della camera nell'origine, rotazinone????
         m_ARPlaneManager.enabled = true;
@@ -91,12 +91,12 @@ public class WallDetection : MonoBehaviour
     }
 
 
-    public void saveWall(){
+    private void saveWall(){
         RoomDimensionsController.addWall(selectedPlane);
         m_ARPlaneManager.enabled = true;
     }
 
-    public void resetScan(){
+    private void resetScan(){
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -115,8 +115,12 @@ public class WallDetection : MonoBehaviour
 
                     if(m_ARRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
                     {
-                            
-                        selectedPlaneId = hits[0].trackableId; // ho l'id del piano selezionato
+                        selectedPlane = hits[0].trackable.gameObject.transform.GetComponent<ARPlane>();
+                        if (selectedPlane != null){
+                            togglePlaneDetection();
+                            saveWallButton.gameObject.SetActive(true);
+                        }
+                        /*selectedPlaneId = hits[0].trackableId; // ho l'id del piano selezionato
 
                         Pose hitPose = hits[0].pose;
                                 
@@ -125,7 +129,8 @@ public class WallDetection : MonoBehaviour
                             togglePlaneDetection();
                             saveWallButton.gameObject.SetActive(true);
                                     
-                        }
+                        }*/
+
                             
                     }
                 }
@@ -134,11 +139,11 @@ public class WallDetection : MonoBehaviour
 
         if(RoomDimensionsController.walls.Count == 4){
             togglePlaneDetection();
-            RoomDimensionsController.calculateRoomDimensions();
-            Wall1.text = $"Wall1: {RoomDimensionsController.wallPositions[0]}";
+            RoomDimensionsController.calculateMinimumDistance();
+            /*Wall1.text = $"Wall1: {RoomDimensionsController.wallPositions[0]}";
             Wall2.text = $"Wall2: {RoomDimensionsController.wallPositions[1]}";
             Wall3.text = $"Wall3: {RoomDimensionsController.wallPositions[2]}";
-            Wall4.text = $"Wall4: {RoomDimensionsController.wallPositions[3]}";
+            Wall4.text = $"Wall4: {RoomDimensionsController.wallPositions[3]}";*/
             Application.Quit();
 
         }
