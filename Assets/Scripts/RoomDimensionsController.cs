@@ -36,7 +36,10 @@ public class RoomDimensionsController : MonoBehaviour
         dimensions.lenght = Vector3.Distance(wallPositions[0],wallPositions[1]);
         dimensions.width = Vector3.Distance(wallPositions[2],wallPositions[3]);
 
-       
+        /*WriteResultIntoFile.WriteVector3(walls[0].transform.position,filename); questo mi scrive su file la posizione dei muri
+        WriteResultIntoFile.WriteVector3(walls[1].transform.position,filename);
+        WriteResultIntoFile.WriteVector3(walls[2].transform.position,filename);
+        WriteResultIntoFile.WriteVector3(walls[3].transform.position,filename);*/
         WriteResultIntoFile.WriteFloat(dimensions.lenght,filename);
         WriteResultIntoFile.WriteFloat(dimensions.width,filename);
     }

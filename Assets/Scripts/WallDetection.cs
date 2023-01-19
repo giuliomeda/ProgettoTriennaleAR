@@ -36,7 +36,7 @@ public class WallDetection : MonoBehaviour
     private Button saveWallButton;
 
     [SerializeField]
-    private Button resetScanButton;
+    private Button resetSceneButton;
 
     [SerializeField]
     private GameObject resultBox;
@@ -62,11 +62,15 @@ public class WallDetection : MonoBehaviour
         m_ARRaycastManager = GetComponent<ARRaycastManager>();
         m_ARPlaneManager = GetComponent<ARPlaneManager>();
 
+
+        //funzioni dei pulsanti quando vengono cliccati
         startScanButton.onClick.AddListener(setOriginAndStartScan);
+        saveWallButton.onClick.AddListener(saveWall);
+        resetSceneButton.onClick.AddListener(resetScan);
     }
 
     void togglePlaneDetection(){
-        m_ARPlaneManager.enabled = !m_ARPlaneManager.enabled;
+        m_ARPlaneManager.enabled = false;
 
         if (!m_ARPlaneManager.enabled){
             foreach(var plane in m_ARPlaneManager.trackables){
@@ -89,7 +93,7 @@ public class WallDetection : MonoBehaviour
 
     public void saveWall(){
         RoomDimensionsController.addWall(selectedPlane);
-        togglePlaneDetection();
+        m_ARPlaneManager.enabled = true;
     }
 
     public void resetScan(){
@@ -129,11 +133,13 @@ public class WallDetection : MonoBehaviour
         }
 
         if(RoomDimensionsController.walls.Count == 4){
+            togglePlaneDetection();
             RoomDimensionsController.calculateRoomDimensions();
             Wall1.text = $"Wall1: {RoomDimensionsController.wallPositions[0]}";
             Wall2.text = $"Wall2: {RoomDimensionsController.wallPositions[1]}";
             Wall3.text = $"Wall3: {RoomDimensionsController.wallPositions[2]}";
             Wall4.text = $"Wall4: {RoomDimensionsController.wallPositions[3]}";
+            Application.Quit();
 
         }
     }
