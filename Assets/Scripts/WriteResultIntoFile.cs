@@ -28,4 +28,16 @@ public class WriteResultIntoFile : MonoBehaviour
         writer.WriteLine(val);
         writer.Close();
     }
+
+    public static void WriteVector3(Vector3 p, string filename){
+        string path = Application.persistentDataPath + "/" + filename + ".csv";
+        StreamWriter writer = new StreamWriter(path,true);
+
+        string val = "";
+        val += p  + "," + "\n";
+        
+        writer.WriteLine(val);
+        writer.Close();
+
+    }
 }
