@@ -97,6 +97,7 @@ public class WallDetection : MonoBehaviour
     }
 
     private void resetScan(){
+        RoomDimensionsController.clearRoomForResetScan();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -139,11 +140,7 @@ public class WallDetection : MonoBehaviour
 
         if(RoomDimensionsController.walls.Count == 4){
             togglePlaneDetection();
-            RoomDimensionsController.calculateMinimumDistance();
-            /*Wall1.text = $"Wall1: {RoomDimensionsController.wallPositions[0]}";
-            Wall2.text = $"Wall2: {RoomDimensionsController.wallPositions[1]}";
-            Wall3.text = $"Wall3: {RoomDimensionsController.wallPositions[2]}";
-            Wall4.text = $"Wall4: {RoomDimensionsController.wallPositions[3]}";*/
+            RoomDimensionsController.calculateRoomDimensions();
             Application.Quit();
 
         }

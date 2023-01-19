@@ -16,8 +16,8 @@ public class RoomDimensionsController : MonoBehaviour
     //membri della classe 
 
     public static List<ARPlane> walls = new List<ARPlane>();
-    private static int index = 0; 
-    public static List<Vector3> wallPositions = new List<Vector3>();
+    public static int index = 0; 
+    public static List<Vector3> wallRefPoint = new List<Vector3>();
     private static RoomDimensions dimensions = new RoomDimensions();
 
 
@@ -29,18 +29,18 @@ public class RoomDimensionsController : MonoBehaviour
     public static void calculateRoomDimensions(){
         
         controlWalls();
-        wallPositions.Insert(0,new Vector3(0f,0f,walls[0].transform.position.z));
-        wallPositions.Insert(1,new Vector3(0f,0f,walls[1].transform.position.z));
-        wallPositions.Insert(2,new Vector3(walls[2].transform.position.x,0f,0f));
-        wallPositions.Insert(3,new Vector3(walls[3].transform.position.x,0f,0f));
+        wallRefPoint.Insert(0,new Vector3(0f,0f,walls[0].transform.position.z));
+        wallRefPoint.Insert(1,new Vector3(0f,0f,walls[1].transform.position.z));
+        wallRefPoint.Insert(2,new Vector3(walls[2].transform.position.x,0f,0f));
+        wallRefPoint.Insert(3,new Vector3(walls[3].transform.position.x,0f,0f));
 
-        dimensions.lenght = Vector3.Distance(wallPositions[0],wallPositions[1]);
-        dimensions.width = Vector3.Distance(wallPositions[2],wallPositions[3]);
+        dimensions.lenght = Vector3.Distance(wallRefPoint[0],wallRefPoint[1]);
+        dimensions.width = Vector3.Distance(wallRefPoint[2],wallRefPoint[3]);
 
-        /*WriteResultIntoFile.WriteVector3(walls[0].transform.position,filename); questo mi scrive su file la posizione dei muri
-        WriteResultIntoFile.WriteVector3(walls[1].transform.position,filename);
-        WriteResultIntoFile.WriteVector3(walls[2].transform.position,filename);
-        WriteResultIntoFile.WriteVector3(walls[3].transform.position,filename);*/
+        WriteResultIntoFile.WriteVector3(walls[0].transform.position,WriteResultIntoFile.filename);
+        WriteResultIntoFile.WriteVector3(walls[1].transform.position,WriteResultIntoFile.filename);
+        WriteResultIntoFile.WriteVector3(walls[2].transform.position,WriteResultIntoFile.filename);
+        WriteResultIntoFile.WriteVector3(walls[3].transform.position,WriteResultIntoFile.filename);
         WriteResultIntoFile.WriteFloat(dimensions.lenght,WriteResultIntoFile.filename);
         WriteResultIntoFile.WriteFloat(dimensions.width,WriteResultIntoFile.filename);
     }
@@ -100,5 +100,10 @@ public class RoomDimensionsController : MonoBehaviour
         }
         
         return;
+    }
+
+    public static void clearRoomForResetScan(){
+        index = 0;
+        walls.Clear();
     }
 }
