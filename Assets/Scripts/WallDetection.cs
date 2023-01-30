@@ -94,6 +94,7 @@ public class WallDetection : MonoBehaviour
     private void saveWall(){
         RoomDimensionsController.addWall(selectedPlane);
         m_ARPlaneManager.enabled = true;
+        saveWallButton.gameObject.SetActive(false);
     }
 
     private void resetScan(){
