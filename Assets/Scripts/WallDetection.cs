@@ -67,6 +67,8 @@ public class WallDetection : MonoBehaviour
         startScanButton.onClick.AddListener(setOriginAndStartScan);
         saveWallButton.onClick.AddListener(saveWall);
         resetSceneButton.onClick.AddListener(resetScan);
+
+        m_ARPlaneManager.enabled = false;       //cerco di partire con planedetection disattivato
     }
 
     private void togglePlaneDetection(){
