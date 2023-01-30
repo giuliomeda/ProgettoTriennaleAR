@@ -56,6 +56,9 @@ public class WallDetection : MonoBehaviour
     [SerializeField]
     private Text Wall4;
 
+    [SerializeField]
+    private RoomDimensionsController my_room;
+
     void Awake()
     {
         
@@ -94,13 +97,13 @@ public class WallDetection : MonoBehaviour
 
 
     private void saveWall(){
-        RoomDimensionsController.addWall(selectedPlane);
+        my_room.addWall(selectedPlane);
         m_ARPlaneManager.enabled = true;
         saveWallButton.gameObject.SetActive(false);
     }
 
     private void resetScan(){
-        RoomDimensionsController.clearRoomForResetScan();
+        my_room.clearRoomForResetScan();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -141,9 +144,9 @@ public class WallDetection : MonoBehaviour
             }
         }
 
-        if(RoomDimensionsController.walls.Count == 4){
+        if(my_room.returnNumOfSavedWalls() == 4){
             togglePlaneDetection();
-            RoomDimensionsController.calculateRoomDimensions();
+            my_room.calculateRoomDimensions();
             Application.Quit();
 
         }

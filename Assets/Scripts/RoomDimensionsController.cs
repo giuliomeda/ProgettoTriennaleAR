@@ -15,18 +15,18 @@ public class RoomDimensionsController : MonoBehaviour
 
     //membri della classe 
 
-    public static List<ARPlane> walls = new List<ARPlane>();
-    public static int index = 0; 
-    public static List<Vector3> wallRefPoint = new List<Vector3>();
-    private static RoomDimensions dimensions = new RoomDimensions();
+    private List<ARPlane> walls = new List<ARPlane>();
+    private int index = 0; 
+    private List<Vector3> wallRefPoint = new List<Vector3>();
+    private  RoomDimensions dimensions = new RoomDimensions();
 
 
-    public static void addWall(ARPlane plane){
+    public void addWall(ARPlane plane){
         walls.Insert(index,plane);
         index++;
     }
 
-    public static void calculateRoomDimensions(){
+    public void calculateRoomDimensions(){
         
         controlWalls();
         wallRefPoint.Insert(0,new Vector3(0f,0f,walls[0].transform.position.z));
@@ -45,7 +45,7 @@ public class RoomDimensionsController : MonoBehaviour
         WriteResultIntoFile.WriteFloat(dimensions.width,WriteResultIntoFile.filename);
     }
 
-    public static void calculateMinimumDistance(){
+    public void calculateMinimumDistance(){
         dimensions.lenght = minimalLenght();
         dimensions.width =  minimalWidth();
 
@@ -55,7 +55,7 @@ public class RoomDimensionsController : MonoBehaviour
         
     }
 
-    private static float minimalLenght(){
+    private float minimalLenght(){
 
         float lenght = float.MaxValue;
         foreach (Vector3 firstPlanePoint in walls[0].boundary){
@@ -72,7 +72,7 @@ public class RoomDimensionsController : MonoBehaviour
 
     }
 
-    private static float minimalWidth(){
+    private float minimalWidth(){
 
         float width = float.MaxValue;
         foreach (Vector3 firstPlanePoint in walls[2].boundary){
@@ -89,7 +89,7 @@ public class RoomDimensionsController : MonoBehaviour
 
     }
 
-    private static void controlWalls(){
+    private void controlWalls(){
 
         if (walls.Count !=4 )
             Application.Quit();
@@ -102,8 +102,12 @@ public class RoomDimensionsController : MonoBehaviour
         return;
     }
 
-    public static void clearRoomForResetScan(){
+    public void clearRoomForResetScan(){
         index = 0;
         walls.Clear();
+    }
+
+    public int returnNumOfSavedWalls(){
+        return walls.Count;
     }
 }

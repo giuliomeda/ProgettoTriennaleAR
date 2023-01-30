@@ -447,6 +447,7 @@ MonoBehaviour:
   Wall2: {fileID: 705270997}
   Wall3: {fileID: 1056434216}
   Wall4: {fileID: 1476796802}
+  my_room: {fileID: 279268971}
 --- !u!114 &279268971
 MonoBehaviour:
   m_ObjectHideFlags: 0
