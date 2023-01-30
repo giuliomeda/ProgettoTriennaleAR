@@ -147,7 +147,7 @@ public class WallDetection : MonoBehaviour
         if(my_room.returnNumOfSavedWalls() == 4){
             togglePlaneDetection();
             my_room.calculateRoomDimensions();
-            Application.Quit();
+            SceneManager.LoadScene("MainMenù");
 
         }
     }
