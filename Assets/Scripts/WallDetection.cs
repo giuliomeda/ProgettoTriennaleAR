@@ -105,46 +105,52 @@ public class WallDetection : MonoBehaviour
         SceneManager.LoadScene("MainMenù");
     }
 
+    private void controlUsersTouches(){
+        if (m_ARPlaneManager.enabled == true){
+                if(Input.touchCount > 0){
+                    Touch touch = Input.GetTouch(0);
+
+                    if (touch.phase == TouchPhase.Ended){
+                        touchPosition = touch.position;
+
+                        if(m_ARRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
+                        {
+                            selectedPlane = hits[0].trackable.gameObject.transform.GetComponent<ARPlane>();
+                            if (selectedPlane != null){
+                                disablePlaneDetection();
+                                hideUnselectedPlanes();
+                                saveWallButton.gameObject.SetActive(true);
+                            }                                
+                        }
+                    }
+                }
+            }
+    }
     // Update is called once per frame
     void Update()
     {
         resultBox.gameObject.SetActive(true);
         CameraCoord.text = $"Camera: {Camera.main.transform.position}";     //aggiorno le coordinate della camera ogni frame
 
-        if (m_ARPlaneManager.enabled == true){
-            if(Input.touchCount > 0){
-                Touch touch = Input.GetTouch(0);
-
-                if (touch.phase == TouchPhase.Ended){
-                    touchPosition = touch.position;
-
-                    if(m_ARRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
-                    {
-                        selectedPlane = hits[0].trackable.gameObject.transform.GetComponent<ARPlane>();
-                        if (selectedPlane != null){
-                            disablePlaneDetection();
-                            hideUnselectedPlanes();
-                            saveWallButton.gameObject.SetActive(true);
-                        }
-                        /*selectedPlaneId = hits[0].trackableId; // ho l'id del piano selezionato
-
-                        Pose hitPose = hits[0].pose;
-                                
-                        if ((selectedPlane = m_ARPlaneManager.GetPlane(selectedPlaneId)) != null){
-                                    
-                            togglePlaneDetection();
-                            saveWallButton.gameObject.SetActive(true);
-                                    
-                        }*/
-
-                            
-                    }
-                }
-            }
+        if(my_room.returnNumOfSavedWalls() < 4){
+            /*
+                da inserire pannello istruzioni per scansione soffitto e pavimento
+            */
+            controlUsersTouches();
         }
 
-        if(my_room.returnNumOfSavedWalls() == 4){
-            disablePlaneDetection();
+        if(my_room.returnNumOfSavedWalls() >= 4 && my_room.returnNumOfSavedWalls() < 6){
+            /*
+                da inserire pannello istruzioni per scansione soffitto e pavimento
+            */
+
+            m_ARPlaneManager.requestedDetectionMode |= PlaneDetectionMode.Horizontal;
+            
+            controlUsersTouches();
+        }
+
+        if (my_room.returnNumOfSavedWalls() == 6){
+
             my_room.calculateRoomDimensions();
             SceneManager.LoadScene("MainMenù");
 
