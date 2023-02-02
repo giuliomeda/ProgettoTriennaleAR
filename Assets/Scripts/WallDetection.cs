@@ -66,18 +66,20 @@ public class WallDetection : MonoBehaviour
         m_ARPlaneManager.enabled = false;       //cerco di partire con planedetection disattivato
     }
 
-    private void togglePlaneDetection(){
+    private void disablePlaneDetection(){
         m_ARPlaneManager.enabled = false;
 
+        return;
+    }
+
+    private void hideUnselectedPlanes(){
         if (!m_ARPlaneManager.enabled){
             foreach(var plane in m_ARPlaneManager.trackables){
-                if (plane != selectedPlane)
+                if (plane != selectedPlane){
                     plane.gameObject.SetActive(false);
+                }
             }
         }
-
-        
-        return;
     }
 
     private void setOriginAndStartScan(){
@@ -120,7 +122,8 @@ public class WallDetection : MonoBehaviour
                     {
                         selectedPlane = hits[0].trackable.gameObject.transform.GetComponent<ARPlane>();
                         if (selectedPlane != null){
-                            togglePlaneDetection();
+                            disablePlaneDetection();
+                            hideUnselectedPlanes();
                             saveWallButton.gameObject.SetActive(true);
                         }
                         /*selectedPlaneId = hits[0].trackableId; // ho l'id del piano selezionato
@@ -141,7 +144,7 @@ public class WallDetection : MonoBehaviour
         }
 
         if(my_room.returnNumOfSavedWalls() == 4){
-            togglePlaneDetection();
+            disablePlaneDetection();
             my_room.calculateRoomDimensions();
             SceneManager.LoadScene("MainMenù");
 
