@@ -6,36 +6,25 @@ using System.IO;
 public class WriteResultIntoFile : MonoBehaviour
 {
     public static string filename = "dimensionfile";
-    public static void WriteFloatArray(float[] f, string filename){
-        string path = Application.persistentDataPath + "/" + filename + ".csv";
 
-        StreamWriter writer = new StreamWriter(path);
-        string val = "";
-        
-        val += f[2]  + ",";
-        
-        writer.WriteLine(val);
-        writer.Close();
-    }
-
-    public static void WriteFloat(float f, string filename){
+    public static void WriteFloat(float f, string dimensionType ,string filename){
         string path = Application.persistentDataPath + "/" + filename + ".csv";
 
         StreamWriter writer = new StreamWriter(path,true);
         string val = "";
         
-        val += f  + ",";
+        val += dimensionType + "," + f  + "," + "\n";
         
         writer.WriteLine(val);
         writer.Close();
     }
 
-    public static void WriteVector3(Vector3 p, string filename){
+    public static void WriteVector3(Vector3 coord, string wallNumber, string filename){
         string path = Application.persistentDataPath + "/" + filename + ".csv";
         StreamWriter writer = new StreamWriter(path,true);
 
         string val = "";
-        val += p  + "," + "\n";
+        val += wallNumber + "," + coord  + "," + "\n";
         
         writer.WriteLine(val);
         writer.Close();
