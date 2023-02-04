@@ -109,8 +109,6 @@ public class WallDetection : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-<<<<<<< HEAD
-=======
     private void backToMainMenù(){
         SceneManager.LoadScene("MainMenù");
     }
@@ -136,7 +134,6 @@ public class WallDetection : MonoBehaviour
                 }
             }
     }
->>>>>>> implementazioneMisuraAltezzaStanza
     // Update is called once per frame
     void Update()
     {
