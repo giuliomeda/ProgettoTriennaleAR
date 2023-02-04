@@ -39,22 +39,13 @@ public class WallDetection : MonoBehaviour
     private Button resetSceneButton;
 
     [SerializeField]
+    private Button returnToMenùButton;
+
+    [SerializeField]
     private GameObject resultBox;
 
     [SerializeField]
-    private Text Wall1;
-
-    [SerializeField]
     private Text CameraCoord;
-
-    [SerializeField]
-    private Text Wall2;
-
-    [SerializeField]
-    private Text Wall3;
-
-    [SerializeField]
-    private Text Wall4;
 
     [SerializeField]
     private RoomDimensionsController my_room;
@@ -70,6 +61,7 @@ public class WallDetection : MonoBehaviour
         startScanButton.onClick.AddListener(setOriginAndStartScan);
         saveWallButton.onClick.AddListener(saveWall);
         resetSceneButton.onClick.AddListener(resetScan);
+        returnToMenùButton.onClick.AddListener(backToMainMenù);
 
         m_ARPlaneManager.enabled = false;       //cerco di partire con planedetection disattivato
     }
