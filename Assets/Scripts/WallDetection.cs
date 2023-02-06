@@ -25,8 +25,6 @@ public class WallDetection : MonoBehaviour
 
     private Vector2 touchPosition;
 
-    private TrackableId selectedPlaneId;
-
     private ARPlane selectedPlane;
 
     [SerializeField]
@@ -91,9 +89,10 @@ public class WallDetection : MonoBehaviour
 
 
     private void saveWall(){
+        saveWallButton.gameObject.SetActive(false);
         my_room.addWall(selectedPlane);
         m_ARPlaneManager.enabled = true;
-        saveWallButton.gameObject.SetActive(false);
+        return;
     }
 
     private void resetScan(){
@@ -106,30 +105,35 @@ public class WallDetection : MonoBehaviour
     }
 
     private void controlUsersTouches(){
-        if (m_ARPlaneManager.enabled == true){
-                if(Input.touchCount > 0){
-                    Touch touch = Input.GetTouch(0);
+        if ((m_ARPlaneManager.enabled == true) && (saveWallButton.gameObject.activeSelf == false)){
+            if(Input.touchCount > 0){
+                Touch touch = Input.GetTouch(0);
 
-                    if (touch.phase == TouchPhase.Ended){
-                        touchPosition = touch.position;
+                if (touch.phase == TouchPhase.Ended){
+                    touchPosition = touch.position;
 
-                        if(m_ARRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
-                        {
-                            selectedPlane = hits[0].trackable.gameObject.transform.GetComponent<ARPlane>();
-                            if (selectedPlane != null){
-                                disablePlaneDetection();
-                                hideUnselectedPlanes();
-                                saveWallButton.gameObject.SetActive(true);
-                            }                                
-                        }
+                    if(m_ARRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
+                    {
+                        TrackableId selectedPlaneID = hits[0].trackableId;
+                        selectedPlane = m_ARPlaneManager.GetPlane(selectedPlaneID);
+                        if (selectedPlane != null){
+                            disablePlaneDetection();
+                            hideUnselectedPlanes();
+                            saveWallButton.gameObject.SetActive(true);
+                            return;
+                        }                                
                     }
                 }
             }
+        }
+        return;
     }
     // Update is called once per frame
     void Update()
     {
-        resultBox.gameObject.SetActive(true);
+        if (resultBox.gameObject.activeSelf == false){
+            resultBox.gameObject.SetActive(true);
+        }
         CameraCoord.text = $"Camera: {Camera.main.transform.position}";     //aggiorno le coordinate della camera ogni frame
 
         if(my_room.returnNumOfSavedWalls() < 4){
@@ -143,8 +147,9 @@ public class WallDetection : MonoBehaviour
             /*
                 da inserire pannello istruzioni per scansione soffitto e pavimento
             */
-
-            m_ARPlaneManager.requestedDetectionMode |= PlaneDetectionMode.Horizontal;
+            if (m_ARPlaneManager.currentDetectionMode == PlaneDetectionMode.Vertical){
+                m_ARPlaneManager.requestedDetectionMode = PlaneDetectionMode.Horizontal;
+            }
             
             controlUsersTouches();
         }
