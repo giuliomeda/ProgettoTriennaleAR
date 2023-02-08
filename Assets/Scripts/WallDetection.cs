@@ -7,6 +7,7 @@ using UnityEngine.XR.ARSubsystems;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 
 public class WallDetection : MonoBehaviour
@@ -25,22 +26,22 @@ public class WallDetection : MonoBehaviour
 
     private Vector2 touchPosition;
 
-    private ARPlane selectedPlane;
+    private ARPlane currentSelectedPlane;
 
     [SerializeField]
     private Button startScanButton;
 
     [SerializeField]
-    private Button saveWallButton;
-
-    [SerializeField]
-    private Button resetSceneButton;
-
-    [SerializeField]
-    private Button returnToMenùButton;
+    private Button startNewScanButton;
 
     [SerializeField]
     private GameObject resultBox;
+
+    [SerializeField]
+    private GameObject selectedPlanePanel;
+
+    [SerializeField]
+    private TextMeshProUGUI selectedPlaneCoord;
 
     [SerializeField]
     private Text CameraCoord;
@@ -54,14 +55,7 @@ public class WallDetection : MonoBehaviour
         m_ARRaycastManager = GetComponent<ARRaycastManager>();
         m_ARPlaneManager = GetComponent<ARPlaneManager>();
 
-
-        //funzioni dei pulsanti quando vengono cliccati
-        startScanButton.onClick.AddListener(setOriginAndStartScan);
-        saveWallButton.onClick.AddListener(saveWall);
-        resetSceneButton.onClick.AddListener(resetScan);
-        returnToMenùButton.onClick.AddListener(backToMainMenù);
-
-        m_ARPlaneManager.enabled = false;       //cerco di partire con planedetection disattivato
+        m_ARPlaneManager.enabled = false;       //applicazione all'avvio ha plane detection disattivato
     }
 
     private void disablePlaneDetection(){
@@ -73,62 +67,85 @@ public class WallDetection : MonoBehaviour
     private void hideUnselectedPlanes(){
         if (!m_ARPlaneManager.enabled){
             foreach(var plane in m_ARPlaneManager.trackables){
-                if (plane != selectedPlane){
+                if(plane != currentSelectedPlane){
                     plane.gameObject.SetActive(false);
                 }
             }
         }
     }
 
-    private void setOriginAndStartScan(){
+    public void reActivateHiddenPlanes(){
+        selectedPlanePanel.gameObject.SetActive(false);
+        if (!m_ARPlaneManager.enabled){
+            foreach(var plane in m_ARPlaneManager.trackables){
+                plane.gameObject.SetActive(true);
+            }
+        }
+        startNewScanButton.gameObject.SetActive(true);
+    }
+
+    private void printSelectedPlaneCoord(){
+        selectedPlaneCoord.text = "X: " + currentSelectedPlane.transform.position.x + " Y: " + currentSelectedPlane.transform.position.y + " Z: " + currentSelectedPlane.transform.position.z;
+    }
+
+    public void setOriginAndStartScan(){
         startScanButton.gameObject.SetActive(false);
         m_ARSessionOrigin.MakeContentAppearAt(m_ARSessionOrigin.transform, m_ARCameraManager.transform.position, m_ARCameraManager.transform.rotation); //faccio in modo di settare la posizione della camera nell'origine, rotazinone????
-        m_ARPlaneManager.enabled = true;
-        
+        startNewScanButton.gameObject.SetActive(true);
     }
 
 
-    private void saveWall(){
-        saveWallButton.gameObject.SetActive(false);
-        my_room.addWall(selectedPlane);
-        m_ARPlaneManager.enabled = true;
+    public void saveWall(){
+        selectedPlanePanel.gameObject.SetActive(false);
+        my_room.addWall(currentSelectedPlane);
+        startNewScanButton.gameObject.SetActive(true);
         return;
     }
 
-    private void resetScan(){
+    public void startNewScan(){
+        startNewScanButton.gameObject.SetActive(false);
+        m_ARPlaneManager.enabled = true;
+    }
+
+    public void resetScan(){
         my_room.clearRoomForResetScan();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    private void backToMainMenù(){
+    public void backToMainMenù(){
         SceneManager.LoadScene("MainMenù");
     }
 
     private void controlUsersTouches(){
-        if ((m_ARPlaneManager.enabled == true) && (saveWallButton.gameObject.activeSelf == false)){
-            if(Input.touchCount > 0){
-                Touch touch = Input.GetTouch(0);
+        if ((m_ARPlaneManager.enabled == true) && (Input.touchCount > 0)){      //controllo che ci sia un touch, che plane detection sia abilitato e che non sia stato selezionato un UI 
 
-                if (touch.phase == TouchPhase.Ended){
-                    touchPosition = touch.position;
+            Touch touch = Input.GetTouch(0);
 
-                    if(m_ARRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
+            if (touch.phase == TouchPhase.Ended)
+            {
+                touchPosition = touch.position;
+
+                if (m_ARRaycastManager.Raycast(touchPosition, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
+                {
+                    TrackableId selectedPlaneID = hits[0].trackableId;
+                    currentSelectedPlane = m_ARPlaneManager.GetPlane(selectedPlaneID);
+                    if ((currentSelectedPlane != null))
                     {
-                        TrackableId selectedPlaneID = hits[0].trackableId;
-                        selectedPlane = m_ARPlaneManager.GetPlane(selectedPlaneID);
-                        if (selectedPlane != null){
-                            disablePlaneDetection();
-                            hideUnselectedPlanes();
-                            saveWallButton.gameObject.SetActive(true);
-                            return;
-                        }                                
+                        disablePlaneDetection();
+                        hideUnselectedPlanes();
+                        selectedPlanePanel.gameObject.SetActive(true);
+                        printSelectedPlaneCoord();
+                        return;
                     }
                 }
             }
+            
         }
         return;
     }
-    // Update is called once per frame
+    
+
+
     void Update()
     {
         if (resultBox.gameObject.activeSelf == false){
@@ -141,6 +158,7 @@ public class WallDetection : MonoBehaviour
                 da inserire pannello istruzioni per scansione soffitto e pavimento
             */
             controlUsersTouches();
+            
         }
 
         if(my_room.returnNumOfSavedWalls() >= 4 && my_room.returnNumOfSavedWalls() < 6){
