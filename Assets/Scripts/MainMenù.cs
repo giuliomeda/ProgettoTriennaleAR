@@ -12,4 +12,8 @@ public class MainMenù : MonoBehaviour
     public void quitApp(){
         Application.Quit();
     }
+
+    public void startHeadDimensionsScene(){
+        SceneManager.LoadScene("FaceTrackingMesh");
+    }
 }
