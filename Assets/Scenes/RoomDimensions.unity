@@ -1096,6 +1096,30 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 279268970}
         m_TargetAssemblyTypeName: WallDetection, Assembly-CSharp
+        m_MethodName: resetScan
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 388320356}
+        m_TargetAssemblyTypeName: UnityEngine.XR.ARFoundation.ARSession, Unity.XR.ARFoundation
+        m_MethodName: Reset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 279268970}
+        m_TargetAssemblyTypeName: WallDetection, Assembly-CSharp
         m_MethodName: "backToMainMen\xF9"
         m_Mode: 1
         m_Arguments:

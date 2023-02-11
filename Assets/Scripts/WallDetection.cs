@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
 
+
 public class WallDetection : MonoBehaviour
 {
     [SerializeField]
@@ -118,6 +119,13 @@ public class WallDetection : MonoBehaviour
 
     public void startNewScan(){
         startNewScanButton.gameObject.SetActive(false);
+        StartCoroutine(WaitTwoSeconds());
+        
+    }
+
+    private IEnumerator WaitTwoSeconds()
+    {
+        yield return new WaitForSeconds(2);
         m_ARPlaneManager.enabled = true;
     }
 
