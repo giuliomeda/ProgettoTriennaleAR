@@ -17,31 +17,20 @@ public class RoomDimensionsController : MonoBehaviour
     //membri della classe 
 
     private List<ARPlane> walls = new List<ARPlane>();
-    private int index = 0; 
-    private List<Vector3> wallRefPoint = new List<Vector3>();
     private  RoomDimensions dimensions = new RoomDimensions();
 
 
-    public void addWall(ARPlane plane){
-        walls.Insert(index,plane);
-        index++;
+    public void addWall(List<ARPlane> planes){
+        walls = planes;
         return;
     }
 
     public void calculateRoomDimensions(){
         
         controlWalls();
-        wallRefPoint.Insert(0,new Vector3(0f,0f,walls[0].transform.position.z));
-        wallRefPoint.Insert(1,new Vector3(0f,0f,walls[1].transform.position.z));
-        wallRefPoint.Insert(2,new Vector3(walls[2].transform.position.x,0f,0f));
-        wallRefPoint.Insert(3,new Vector3(walls[3].transform.position.x,0f,0f));
-        wallRefPoint.Insert(4,new Vector3(0f,walls[4].transform.position.y,0f));
-        wallRefPoint.Insert(5,new Vector3(0f,walls[5].transform.position.y,0f));
-
-
-        dimensions.lenght = Vector3.Distance(wallRefPoint[0],wallRefPoint[1]);
-        dimensions.width = Vector3.Distance(wallRefPoint[2],wallRefPoint[3]);
-        dimensions.height = Vector3.Distance(wallRefPoint[4], wallRefPoint[5]);
+        dimensions.lenght = Mathf.Abs(walls[0].transform.position.z) + Mathf.Abs(walls[1].transform.position.z);
+        dimensions.width = Mathf.Abs(walls[2].transform.position.x) + Mathf.Abs(walls[3].transform.position.x);
+        dimensions.height = Mathf.Abs(walls[4].transform.position.y) + Mathf.Abs(walls[5].transform.position.y);
 
         WriteResultIntoFile.WriteVector3(walls[0].transform.position,"wall_1",WriteResultIntoFile.filename);
         WriteResultIntoFile.WriteVector3(walls[1].transform.position,"wall_2",WriteResultIntoFile.filename);
@@ -70,12 +59,7 @@ public class RoomDimensionsController : MonoBehaviour
     }
 
     public void clearRoomForResetScan(){
-        index = 0;
         walls.Clear();
-    }
-
-    public int returnNumOfSavedWalls(){
-        return walls.Count;
     }
 
 }

@@ -18,9 +18,14 @@ public class WallDetection : MonoBehaviour
     [SerializeField]
     private ARCameraManager m_ARCameraManager;
 
+    [SerializeField]
+    private ARAnchorManager m_ARAnchorManager;
+
     private ARRaycastManager m_ARRaycastManager;
 
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
+
+    private List<TrackableId> selectedPlanesID = new List<TrackableId>();
 
     private ARPlaneManager m_ARPlaneManager;
 
@@ -67,7 +72,7 @@ public class WallDetection : MonoBehaviour
     private void hideUnselectedPlanes(){
         if (!m_ARPlaneManager.enabled){
             foreach(var plane in m_ARPlaneManager.trackables){
-                if(plane != currentSelectedPlane){
+                if (!selectedPlanesID.Contains(plane.trackableId) && plane != currentSelectedPlane){
                     plane.gameObject.SetActive(false);
                 }
             }
@@ -97,7 +102,16 @@ public class WallDetection : MonoBehaviour
 
     public void saveWall(){
         selectedPlanePanel.gameObject.SetActive(false);
-        my_room.addWall(currentSelectedPlane);
+        // attach an anchor at the center of the current selected plane
+        ARAnchor anchor = m_ARAnchorManager.AttachAnchor(currentSelectedPlane, new Pose (currentSelectedPlane.transform.position, currentSelectedPlane.transform.rotation));
+        // check if anchor has a valid state 
+        if (anchor == null){
+            Debug.Log("Anchor is null");
+            Application.Quit();
+        }
+        // save the selectedPlaneID in a list
+        selectedPlanesID.Add(currentSelectedPlane.trackableId);
+
         startNewScanButton.gameObject.SetActive(true);
         return;
     }
@@ -153,7 +167,7 @@ public class WallDetection : MonoBehaviour
         }
         CameraCoord.text = $"Camera: {Camera.main.transform.position}";     //aggiorno le coordinate della camera ogni frame
 
-        if(my_room.returnNumOfSavedWalls() < 4){
+        if(selectedPlanesID.Count < 4){
             /*
                 da inserire pannello istruzioni per scansione soffitto e pavimento
             */
@@ -161,7 +175,7 @@ public class WallDetection : MonoBehaviour
             
         }
 
-        if(my_room.returnNumOfSavedWalls() >= 4 && my_room.returnNumOfSavedWalls() < 6){
+        if(selectedPlanesID.Count >= 4 && selectedPlanesID.Count < 6){
             /*
                 da inserire pannello istruzioni per scansione soffitto e pavimento
             */
@@ -172,9 +186,21 @@ public class WallDetection : MonoBehaviour
             controlUsersTouches();
         }
 
-        if (my_room.returnNumOfSavedWalls() == 6){
+        if (selectedPlanesID.Count == 6){
+
+            if (m_ARAnchorManager.trackables.count != 6){
+                Application.Quit();
+            }
+            // creo una lista con tutti i muri salvati 
+            List<ARPlane> savedPlanes = new List<ARPlane>();
+            foreach (var planeID in selectedPlanesID){
+                savedPlanes.Add(m_ARPlaneManager.GetPlane(planeID));
+            }
+        
+            my_room.addWall(savedPlanes);
 
             my_room.calculateRoomDimensions();
+
             SceneManager.LoadScene("MainMenù");
 
         }

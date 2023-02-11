@@ -402,6 +402,7 @@ GameObject:
   - component: {fileID: 279268966}
   - component: {fileID: 279268969}
   - component: {fileID: 279268968}
+  - component: {fileID: 279268972}
   - component: {fileID: 279268970}
   - component: {fileID: 279268971}
   m_Layer: 0
@@ -481,6 +482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ARSessionOrigin: {fileID: 279268966}
   m_ARCameraManager: {fileID: 1169459006}
+  m_ARAnchorManager: {fileID: 279268972}
   startScanButton: {fileID: 174726024}
   startNewScanButton: {fileID: 1241229505}
   resultBox: {fileID: 1163118380}
@@ -500,6 +502,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9e91b904204b6e4b9c7b86f15ff07e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &279268972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279268965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728ad7fae8e460a4ba41265c7308d757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AnchorPrefab: {fileID: 4037154229513052301, guid: 55ed20981e9a75a40adbf942fde60370, type: 3}
 --- !u!1 &344549601
 GameObject:
   m_ObjectHideFlags: 0
