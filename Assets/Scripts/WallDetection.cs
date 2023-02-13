@@ -41,7 +41,12 @@ public class WallDetection : MonoBehaviour
     private Button startNewScanButton;
 
     [SerializeField]
-    private GameObject resultBox;
+    private GameObject cameraCoordBox;
+
+    [SerializeField]
+    private GameObject instructionPanel;
+
+    private int countTouchesOkButton = 0;
 
     [SerializeField]
     private GameObject selectedPlanePanel;
@@ -50,7 +55,7 @@ public class WallDetection : MonoBehaviour
     private TextMeshProUGUI selectedPlaneCoord;
 
     [SerializeField]
-    private Text CameraCoord;
+    private TextMeshProUGUI instructionText;
 
     [SerializeField]
     private RoomDimensionsController my_room;
@@ -64,6 +69,50 @@ public class WallDetection : MonoBehaviour
         m_ARPlaneManager.enabled = false;       //applicazione all'avvio ha plane detection disattivato
     }
 
+    public void updateInstructionText(){
+        switch (countTouchesOkButton)
+        {
+            case 0:
+                startScanButton.gameObject.SetActive(true);
+                instructionText.text = "2. You have set the origin of the AR scene. Now you can start the room scan. Remember that the first two saved walls determine the lenght of the room, the second two the width. When you are ready, press the 'start scan' button. When a wall is detected, you can touch it for view the coordinates and save it as a wall of the room. If you made a wrong selection, you can press the discard button to select another wall.";
+                countTouchesOkButton++;
+                break;
+            case 1:
+                instructionText.text = "3. You have saved the first wall. Now go to the opposite wall and scan it to complete the lenght measurement.";
+                countTouchesOkButton++;
+                startNewScanButton.gameObject.SetActive(true);
+                break;
+            case 2:
+                instructionText.text = "4. Now repeat the same procedure for the width measurement.";
+                countTouchesOkButton++;
+                startNewScanButton.gameObject.SetActive(true);
+                break;
+            case 3:
+                instructionText.text = "5. You have saved the first wall. Now go to the opposite wall and scan it to complete the width measurement.";
+                countTouchesOkButton++;
+                startNewScanButton.gameObject.SetActive(true);
+                break;
+            case 4:
+                instructionText.text = "6. The lenght and width measurements are completed. The next step is the height measurement. When you are ready, press the 'start scan' button to start scan the floor.";
+                countTouchesOkButton++;
+                startNewScanButton.gameObject.SetActive(true);
+                break;
+            case 5:
+                instructionText.text = "7. You have saved the floor. Now point the device to the ceiling and scan it to complete the height measurement.";
+                countTouchesOkButton++;
+                startNewScanButton.gameObject.SetActive(true);
+                break;
+            case 6:
+                countTouchesOkButton++;
+                startNewScanButton.gameObject.SetActive(true);
+                break;
+            
+
+        }
+
+        instructionPanel.gameObject.SetActive(false);
+
+    }
     private void disablePlaneDetection(){
         m_ARPlaneManager.enabled = false;
 
@@ -97,7 +146,7 @@ public class WallDetection : MonoBehaviour
     public void setOriginAndStartScan(){
         startScanButton.gameObject.SetActive(false);
         m_ARSessionOrigin.MakeContentAppearAt(m_ARSessionOrigin.transform, m_ARCameraManager.transform.position, m_ARCameraManager.transform.rotation); //faccio in modo di settare la posizione della camera nell'origine, rotazinone????
-        startNewScanButton.gameObject.SetActive(true);
+        instructionPanel.gameObject.SetActive(true);
     }
 
 
@@ -113,12 +162,19 @@ public class WallDetection : MonoBehaviour
         // save the selectedPlaneID in a list
         selectedPlanesID.Add(currentSelectedPlane.trackableId);
 
-        startNewScanButton.gameObject.SetActive(true);
+        instructionPanel.gameObject.SetActive(true);
         return;
     }
 
     public void startNewScan(){
+
         startNewScanButton.gameObject.SetActive(false);
+        if(selectedPlanesID.Count == 3 ){
+            startNewScanButton.GetComponentInChildren<TextMeshProUGUI>().text = "START FLOOR SCAN";
+        }
+        if (selectedPlanesID.Count == 4){
+            startNewScanButton.GetComponentInChildren<TextMeshProUGUI>().text = "START CEILING SCAN";
+        }
         StartCoroutine(WaitTwoSeconds());
         
     }
@@ -170,10 +226,11 @@ public class WallDetection : MonoBehaviour
 
     void Update()
     {
-        if (resultBox.gameObject.activeSelf == false){
-            resultBox.gameObject.SetActive(true);
+        if (instructionPanel.gameObject.activeSelf == true){
+            m_ARPlaneManager.enabled = false;
         }
-        CameraCoord.text = $"Camera: {Camera.main.transform.position}";     //aggiorno le coordinate della camera ogni frame
+
+        cameraCoordBox.GetComponentInChildren<TextMeshProUGUI>().text = $"Camera position: {Camera.main.transform.position}";     //aggiorno le coordinate della camera ogni frame
 
         if(selectedPlanesID.Count < 4){
             /*
