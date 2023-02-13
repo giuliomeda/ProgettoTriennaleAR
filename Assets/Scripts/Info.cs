@@ -7,6 +7,7 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 
 [RequireComponent(typeof(ARFaceManager))]
@@ -21,6 +22,9 @@ public class Info : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI distanceX;
 
+    private Button SaveDataButton;
+    private bool dataSaved = false;
+
     private Vector3 center;
     private Vector3 up;
 
@@ -34,7 +38,7 @@ public class Info : MonoBehaviour
     private Vector3 right2;
     private Vector3 right3;
 
-    private double distZ;
+    private float distZ;
     private float distX;
 
     void Awake()
@@ -44,7 +48,7 @@ public class Info : MonoBehaviour
 
     void Update()
     {
-        if(m_face == null)
+        if (m_face == null)
         {
             //prendo i vertici "principali"
             foreach (ARFace f in m_arFaceManager.trackables)
@@ -63,50 +67,68 @@ public class Info : MonoBehaviour
                 right3 = m_face.vertices[234];
             }
         }
-            //calcolo media di 3 vertici 
-            left = AverageV3(left1, left2, left3);
-            right = AverageV3(right1, right2, right3);
+        //calcolo media di 3 vertici 
+        left = AverageV3(left1, left2, left3);
+        right = AverageV3(right1, right2, right3);
 
-            //calcolo distanze e visualizzo risultati
-            distZ = CalculateDistanceZ(center, up);
-            distX = CalculateDistanceX(left, right);
-            DisplayInfo(distZ, distX);
+        //calcolo distanze e visualizzo risultati
+        distZ = CalculateDistanceZ(center, up);
+        distX = CalculateDistanceX(left, right);
+        DisplayInfo(distZ, distX);
 
-            //salvo su file i risultati
-            //WriteResultIntoFile.WriteFloatArray(distanceY, distanceX, filename);
-        }
+        SaveDataButton.onClick.AddListener(SaveInfo);
 
-        //faccio una media dei 3 vertici di sx e dx
-        private Vector3 AverageV3(Vector3 a, Vector3 b, Vector3 c)
+        if (dataSaved)
         {
-            return (a+b+c)/3;
+            BackToMainMenù();
         }
+    }
 
-        //calcolo distanze
-        private float CalculateDistanceZ(Vector3 center, Vector3 up)
-        {
-            float l;
-            float r;
-            l = Vector3.Distance(center, up) * 100;
-            r = l / 2;
+    //faccio una media dei 3 vertici di sx e dx
+    private Vector3 AverageV3(Vector3 a, Vector3 b, Vector3 c)
+    {
+        return (a + b + c) / 3;
+    }
 
-            //distanza Z
-            return (l+r)*2;
-        }
+    //calcolo distanze
+    private float CalculateDistanceZ(Vector3 center, Vector3 up)
+    {
+        float l;
+        float r;
+        l = Vector3.Distance(center, up) * 100;
+        r = l / 2;
 
-        private float CalculateDistanceX(Vector3 left, Vector3 right)
-        {
-            //distanza X
-            return Vector3.Distance(right, left) * 100;
-        }
+        //distanza Z
+        return (l + r) * 2;
+    }
 
-        //visualizzo i dati calcolati
-        public void DisplayInfo(double distZ, float distX)
-        {
-            //display info
-            distanceZ.text = $"Profondità: {distZ.ToString("F2")} cm";
-            distanceX.text = $"Distanza orecchie: {distX.ToString("F2")} cm";
-        }
+    private float CalculateDistanceX(Vector3 left, Vector3 right)
+    {
+        //distanza X
+        return Vector3.Distance(right, left) * 100;
+    }
+
+    //visualizzo i dati calcolati
+    public void DisplayInfo(float distZ, float distX)
+    {
+        //display info
+        distanceZ.text = $"Profondità: {distZ.ToString("F2")} cm";
+        distanceX.text = $"Distanza orecchie: {distX.ToString("F2")} cm";
+    }
+
+    public void SaveInfo()
+    {
+        //salva dati su file
+        WriteResultIntoFile.WriteFloat(distZ, "profondità", "FaceDimension");
+        WriteResultIntoFile.WriteFloat(distX, "distanza orecchie", "FaceDimension");
+        dataSaved = true;
+    }
+
+    //ritorno al menù principale
+    public void BackToMainMenù()
+    {
+        SceneManager.LoadScene("MainMenù");
+    }
 }
 
 
