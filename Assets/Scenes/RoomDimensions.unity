@@ -493,6 +493,7 @@ MonoBehaviour:
   selectedPlaneCoord: {fileID: 818266064}
   instructionText: {fileID: 1780275822}
   my_room: {fileID: 279268971}
+  originAnchorPrefab: {fileID: 1362899771367802, guid: 7e061e4cd101d7a40b8c661d53963ab7, type: 3}
 --- !u!114 &279268971
 MonoBehaviour:
   m_ObjectHideFlags: 0

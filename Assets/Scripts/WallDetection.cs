@@ -28,6 +28,8 @@ public class WallDetection : MonoBehaviour
 
     private List<TrackableId> selectedPlanesID = new List<TrackableId>();
 
+    private List<ARAnchor> anchorsList = new List<ARAnchor>();
+
     private ARPlaneManager m_ARPlaneManager;
 
     private Vector2 touchPosition;
@@ -59,6 +61,9 @@ public class WallDetection : MonoBehaviour
 
     [SerializeField]
     private RoomDimensionsController my_room;
+
+    [SerializeField]
+    private GameObject originAnchorPrefab;
 
     void Awake()
     {
@@ -146,6 +151,9 @@ public class WallDetection : MonoBehaviour
     public void setOriginAndStartScan(){
         startScanButton.gameObject.SetActive(false);
         m_ARSessionOrigin.MakeContentAppearAt(m_ARSessionOrigin.transform, m_ARCameraManager.transform.position, m_ARCameraManager.transform.rotation); //faccio in modo di settare la posizione della camera nell'origine, rotazinone????
+        Instantiate(originAnchorPrefab,m_ARSessionOrigin.transform.position, m_ARSessionOrigin.transform.rotation);
+        ARAnchor anchor =  originAnchorPrefab.AddComponent<ARAnchor>();
+        anchorsList.Add(anchor);
         instructionPanel.gameObject.SetActive(true);
     }
 
@@ -159,6 +167,7 @@ public class WallDetection : MonoBehaviour
             Debug.Log("Anchor is null");
             Application.Quit();
         }
+        anchorsList.Add(anchor);
         // save the selectedPlaneID in a list
         selectedPlanesID.Add(currentSelectedPlane.trackableId);
 
@@ -187,6 +196,9 @@ public class WallDetection : MonoBehaviour
 
     public void resetScan(){
         my_room.clearRoomForResetScan();
+        //elimino anchors presenti
+        anchorsList.Clear();
+        countTouchesOkButton = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -253,9 +265,10 @@ public class WallDetection : MonoBehaviour
 
         if (selectedPlanesID.Count == 6){
 
-            if (m_ARAnchorManager.trackables.count != 6){
+            if (anchorsList.Count != 7 ){
                 Application.Quit();
             }
+
             // creo una lista con tutti i muri salvati 
             List<ARPlane> savedPlanes = new List<ARPlane>();
             foreach (var planeID in selectedPlanesID){
