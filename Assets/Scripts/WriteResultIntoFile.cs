@@ -8,7 +8,7 @@ public class WriteResultIntoFile : MonoBehaviour
     public static string filename = "RoomDimensionsFile";
     public static void WriteHeaderOfRoomDimensionsFile(){
         string path = Application.persistentDataPath + "/" + filename + ".csv";
-        string[] headerOfRoomDimensionFile = {"Wall1(x-y-z)","Wall2(x-y-z)","Wall3(x-y-z)","Wall4(x-y-z)","Floor(x-y-z)","Ceiling(x-y-z)","lenght","width","height"};
+        string[] headerOfRoomDimensionFile = {"Wall1(x)","Wall1(y)","Wall1(z)","Wall2(x)","Wall2(y)","Wall2(z)","Wall3(x)","Wall3(y)","Wall43z)","Wall4(x)","Wall4(y)","Wall4(z)","Floor(x)","Floor(y)","Floor(z)","Ceiling(x)","Ceiling(y)","Ceiling(z)","RoomLenght","RoomWidth","RoomHeight"};
         if (!File.Exists(path)){
             StreamWriter writer = new StreamWriter(path,true);
             string val = "";
@@ -51,17 +51,5 @@ public class WriteResultIntoFile : MonoBehaviour
         
         writer.WriteLine(val);
         writer.Close();
-    }
-
-    public static void WriteVector3(Vector3 coord, string filename){
-        string path = Application.persistentDataPath + "/" + filename + ".csv";
-        StreamWriter writer = new StreamWriter(path,true);
-
-        string val = "";
-        val += coord.x  + "-" + coord.y + "-" + coord.z + ",";
-        
-        writer.Write(val);
-        writer.Close();
-
     }
 }
