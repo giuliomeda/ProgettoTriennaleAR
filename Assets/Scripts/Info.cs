@@ -119,8 +119,7 @@ public class Info : MonoBehaviour
     public void SaveInfo()
     {
         //salva dati su file
-        WriteResultIntoFile.WriteFloat(distZ, "profondità", "FaceDimension");
-        WriteResultIntoFile.WriteFloat(distX, "distanza orecchie", "FaceDimension");
+        WriteResultIntoFile.WriteFloatFace(distZ, distX, "FaceDimension");
         dataSaved = true;
     }
 
@@ -131,13 +130,3 @@ public class Info : MonoBehaviour
     }
 }
 
-
-
-
-/*fasi di sviluppo*/
-//1-richiamare la maschera
-//2-entrare nei vertici e salvarli
-//3-prendere i 4 vertici
-//4-calcolare le due distanze(x,y)
-//5-visualizzare i dati calcolati
-//6-salvare i dati visualizzati su file di testo o excel con lo script professore

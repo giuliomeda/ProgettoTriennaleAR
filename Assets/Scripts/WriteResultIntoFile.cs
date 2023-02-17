@@ -30,4 +30,18 @@ public class WriteResultIntoFile : MonoBehaviour
         writer.Close();
 
     }
+
+    public static void WriteFloatFace(float f, float c,string filename)
+    {
+        string path = Application.persistentDataPath + "/" + filename + ".csv";
+
+        StreamWriter writer = new StreamWriter(path, true);
+        string val = "";
+        string intro = "dimensioni volto, profondità, distanza orecchie";
+        val += f + ","+ c + ",";
+
+        writer.WriteLine(intro);
+        writer.WriteLine(val);
+        writer.Close();
+    }
 }
