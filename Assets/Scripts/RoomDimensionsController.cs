@@ -31,17 +31,17 @@ public class RoomDimensionsController : MonoBehaviour
         dimensions.lenght = Mathf.Abs(walls[0].transform.position.z) + Mathf.Abs(walls[1].transform.position.z);
         dimensions.width = Mathf.Abs(walls[2].transform.position.x) + Mathf.Abs(walls[3].transform.position.x);
         dimensions.height = Mathf.Abs(walls[4].transform.position.y) + Mathf.Abs(walls[5].transform.position.y);
+        WriteResultIntoFile.WriteHeaderOfRoomDimensionsFile();
+        WriteResultIntoFile.WriteVector3(walls[0].transform.position,WriteResultIntoFile.filename);
+        WriteResultIntoFile.WriteVector3(walls[1].transform.position,WriteResultIntoFile.filename);
+        WriteResultIntoFile.WriteVector3(walls[2].transform.position,WriteResultIntoFile.filename);
+        WriteResultIntoFile.WriteVector3(walls[3].transform.position,WriteResultIntoFile.filename);
+        WriteResultIntoFile.WriteVector3(walls[4].transform.position,WriteResultIntoFile.filename);
+        WriteResultIntoFile.WriteVector3(walls[5].transform.position,WriteResultIntoFile.filename);
 
-        WriteResultIntoFile.WriteVector3(walls[0].transform.position,"wall_1",WriteResultIntoFile.filename);
-        WriteResultIntoFile.WriteVector3(walls[1].transform.position,"wall_2",WriteResultIntoFile.filename);
-        WriteResultIntoFile.WriteVector3(walls[2].transform.position,"wall_3",WriteResultIntoFile.filename);
-        WriteResultIntoFile.WriteVector3(walls[3].transform.position,"wall_4",WriteResultIntoFile.filename);
-        WriteResultIntoFile.WriteVector3(walls[4].transform.position,"floor",WriteResultIntoFile.filename);
-        WriteResultIntoFile.WriteVector3(walls[5].transform.position,"ceiling",WriteResultIntoFile.filename);
-
-        WriteResultIntoFile.WriteFloat(dimensions.lenght, "lenght", WriteResultIntoFile.filename);
-        WriteResultIntoFile.WriteFloat(dimensions.width, "width", WriteResultIntoFile.filename);
-        WriteResultIntoFile.WriteFloat(dimensions.height, "height",WriteResultIntoFile.filename);
+        WriteResultIntoFile.WriteRoomDimension(dimensions.lenght, WriteResultIntoFile.filename);
+        WriteResultIntoFile.WriteRoomDimension(dimensions.width, WriteResultIntoFile.filename);
+        WriteResultIntoFile.WriteRoomDimension(dimensions.height, WriteResultIntoFile.filename);
 
     }
 
