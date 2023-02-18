@@ -119,6 +119,7 @@ public class Info : MonoBehaviour
     public void SaveInfo()
     {
         //salva dati su file
+        WriteResultIntoFile.WriteHeaderFloatFace();
         WriteResultIntoFile.WriteFloatFace(distZ, distX, "FaceDimension");
         dataSaved = true;
     }
