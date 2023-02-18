@@ -108,19 +108,21 @@ extern void U3CWaitTwoSecondsU3Ed__29_System_Collections_Generic_IEnumeratorU3CS
 extern void U3CWaitTwoSecondsU3Ed__29_System_Collections_IEnumerator_Reset_m242F2944B89AAAF3A5B4F363D28FD352498FF90E (void);
 // 0x00000030 System.Object WallDetection/<WaitTwoSeconds>d__29::System.Collections.IEnumerator.get_Current()
 extern void U3CWaitTwoSecondsU3Ed__29_System_Collections_IEnumerator_get_Current_m5C11FF21BE28CFC3BFED3A776E2614217D935178 (void);
-// 0x00000031 System.Void WriteResultIntoFile::WriteFloat(System.Single,System.String,System.String)
+// 0x00000031 System.Void WriteResultIntoFile::WriteHeaderOfRoomDimensionsFile()
+extern void WriteResultIntoFile_WriteHeaderOfRoomDimensionsFile_m6252A005E89711DF9FCE34AD1DDA3903F4B79A65 (void);
+// 0x00000032 System.Void WriteResultIntoFile::WriteRoomDimension(System.Single,System.String)
+extern void WriteResultIntoFile_WriteRoomDimension_m04EB99C6230625A5D1000E9870216880B81E27BC (void);
+// 0x00000033 System.Void WriteResultIntoFile::WriteFloat(System.Single,System.String,System.String)
 extern void WriteResultIntoFile_WriteFloat_mE5B0BB4531D5FD9769F2FFB44D2D7A0EA93CDFB1 (void);
-// 0x00000032 System.Void WriteResultIntoFile::WriteVector3(UnityEngine.Vector3,System.String,System.String)
-extern void WriteResultIntoFile_WriteVector3_mA13C7D8BC1042489D802D55B1ED56BA26CE70D4C (void);
-// 0x00000033 System.Void WriteResultIntoFile::WriteHeaderFloatFace()
+// 0x00000034 System.Void WriteResultIntoFile::WriteHeaderFloatFace()
 extern void WriteResultIntoFile_WriteHeaderFloatFace_m825C243D315F0DA7D01DE2E4D837CFC63EFB9DBF (void);
-// 0x00000034 System.Void WriteResultIntoFile::WriteFloatFace(System.Single,System.Single,System.String)
+// 0x00000035 System.Void WriteResultIntoFile::WriteFloatFace(System.Single,System.Single,System.String)
 extern void WriteResultIntoFile_WriteFloatFace_m7D7520883E1E2A8196062F68A3BB8C4C68D135A4 (void);
-// 0x00000035 System.Void WriteResultIntoFile::.ctor()
+// 0x00000036 System.Void WriteResultIntoFile::.ctor()
 extern void WriteResultIntoFile__ctor_mBCA21BD8CA36F4AEBB32547BA5E8DC12EF0BA3FF (void);
-// 0x00000036 System.Void WriteResultIntoFile::.cctor()
+// 0x00000037 System.Void WriteResultIntoFile::.cctor()
 extern void WriteResultIntoFile__cctor_m6C9257B0677AC4D1C18A78ECE9A20A83C15B10AA (void);
-static Il2CppMethodPointer s_methodPointers[54] = 
+static Il2CppMethodPointer s_methodPointers[55] = 
 {
 	Info_Awake_mDE3F0E7236FCA5ABBF770A39295AF2C6C2E37686,
 	Info_Update_mFDC8B872D7C6E4CE063421371F21D65C9D317A14,
@@ -170,14 +172,15 @@ static Il2CppMethodPointer s_methodPointers[54] =
 	U3CWaitTwoSecondsU3Ed__29_System_Collections_Generic_IEnumeratorU3CSystem_ObjectU3E_get_Current_mD0D4F58DC0294769E9F0F404A5C2C7C6695E139C,
 	U3CWaitTwoSecondsU3Ed__29_System_Collections_IEnumerator_Reset_m242F2944B89AAAF3A5B4F363D28FD352498FF90E,
 	U3CWaitTwoSecondsU3Ed__29_System_Collections_IEnumerator_get_Current_m5C11FF21BE28CFC3BFED3A776E2614217D935178,
+	WriteResultIntoFile_WriteHeaderOfRoomDimensionsFile_m6252A005E89711DF9FCE34AD1DDA3903F4B79A65,
+	WriteResultIntoFile_WriteRoomDimension_m04EB99C6230625A5D1000E9870216880B81E27BC,
 	WriteResultIntoFile_WriteFloat_mE5B0BB4531D5FD9769F2FFB44D2D7A0EA93CDFB1,
-	WriteResultIntoFile_WriteVector3_mA13C7D8BC1042489D802D55B1ED56BA26CE70D4C,
 	WriteResultIntoFile_WriteHeaderFloatFace_m825C243D315F0DA7D01DE2E4D837CFC63EFB9DBF,
 	WriteResultIntoFile_WriteFloatFace_m7D7520883E1E2A8196062F68A3BB8C4C68D135A4,
 	WriteResultIntoFile__ctor_mBCA21BD8CA36F4AEBB32547BA5E8DC12EF0BA3FF,
 	WriteResultIntoFile__cctor_m6C9257B0677AC4D1C18A78ECE9A20A83C15B10AA,
 };
-static const int32_t s_InvokerIndices[54] = 
+static const int32_t s_InvokerIndices[55] = 
 {
 	4428,
 	4428,
@@ -227,8 +230,9 @@ static const int32_t s_InvokerIndices[54] =
 	4332,
 	4428,
 	4332,
+	6979,
+	6351,
 	5752,
-	5758,
 	6979,
 	5753,
 	4428,
@@ -238,7 +242,7 @@ IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule;
 const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule = 
 {
 	"Assembly-CSharp.dll",
-	54,
+	55,
 	s_methodPointers,
 	0,
 	NULL,

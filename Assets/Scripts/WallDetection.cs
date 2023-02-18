@@ -170,8 +170,9 @@ public class WallDetection : MonoBehaviour
         anchorsList.Add(anchor);
         // save the selectedPlaneID in a list
         selectedPlanesID.Add(currentSelectedPlane.trackableId);
-
-        instructionPanel.gameObject.SetActive(true);
+        if(countTouchesOkButton <= 6 ){
+            instructionPanel.gameObject.SetActive(true);
+        }
         return;
     }
 
