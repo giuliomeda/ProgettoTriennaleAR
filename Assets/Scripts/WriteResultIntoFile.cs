@@ -6,6 +6,7 @@ using System.IO;
 public class WriteResultIntoFile : MonoBehaviour
 {
     public static string filename = "RoomDimensionsFile";
+    public static string fileOfPositions = "TouchPositionFile";
     public static void WriteHeaderOfRoomDimensionsFile(){
         string path = Application.persistentDataPath + "/" + filename + ".csv";
         string[] headerOfRoomDimensionFile = {"Wall1(x)","Wall1(y)","Wall1(z)","Wall2(x)","Wall2(y)","Wall2(z)","Wall3(x)","Wall3(y)","Wall43z)","Wall4(x)","Wall4(y)","Wall4(z)","Floor(x)","Floor(y)","Floor(z)","Ceiling(x)","Ceiling(y)","Ceiling(z)","RoomLenght","RoomWidth","RoomHeight"};
@@ -14,6 +15,29 @@ public class WriteResultIntoFile : MonoBehaviour
             string val = "";
 
             foreach(string s in headerOfRoomDimensionFile ){
+                val += s + ","; 
+            }
+
+            writer.WriteLine(val);
+            writer.Close();
+        }
+        // se il file esiste già, la prima riga (intestazione) è già stampata quindi mi basta solo andare a capo
+        else {
+            StreamWriter writer = new StreamWriter(path,true);
+            string val = "";
+
+            writer.WriteLine(val);
+            writer.Close();
+        }
+    }
+    public static void WriteHeaderOfTouchPosition(){
+        string path = Application.persistentDataPath + "/" + fileOfPositions + ".csv";
+        string[] headerOfTouchPositionFile = {"num. of touch", "x","y"};
+        if (!File.Exists(path)){
+            StreamWriter writer = new StreamWriter(path,true);
+            string val = "";
+
+            foreach(string s in headerOfTouchPositionFile ){
                 val += s + ","; 
             }
 
@@ -39,6 +63,19 @@ public class WriteResultIntoFile : MonoBehaviour
         val += f  + ",";
         
         writer.Write(val);
+        writer.Close();
+    }
+
+    public static void WriteTouchPositions(List<Vector2> listOfPositions, int numberOfTouch){
+        string path = Application.persistentDataPath + "/" + fileOfPositions + ".csv";
+
+        
+        StreamWriter writer = new StreamWriter(path,true);
+        foreach(var p in listOfPositions){
+            string val = "" + numberOfTouch + "," + p.x + "," + p.y;
+            writer.WriteLine(val);
+
+        }
         writer.Close();
     }
     public static void WriteFloat(float f, string dimensionType ,string filename){

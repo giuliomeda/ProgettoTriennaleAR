@@ -22,7 +22,7 @@ public class takePhoto : MonoBehaviour
     private int numberOfSavedTouches = 0;
     private void Awake() {
         takePhotoButton.onClick.AddListener(getPhoto);
-        backToMenuButton.onClick.AddListener(returnToMenu);
+        //backToMenuButton.onClick.AddListener(returnToMenu);
         saveDataIntoFile.onClick.AddListener(writePositionIntoFile);
     }
     
@@ -31,9 +31,9 @@ public class takePhoto : MonoBehaviour
         StartCoroutine(WaitOneSecond());
     }
 
-    private void returnToMenu(){
+    /*private void returnToMenu(){
         SceneManager.LoadScene("MainMenù");
-    }
+    }*/
 
     private IEnumerator WaitOneSecond()
     {
@@ -75,18 +75,8 @@ public class takePhoto : MonoBehaviour
 
     public void writePositionIntoFile(){
         saveDataIntoFile.gameObject.SetActive(false);
-        string filename = "positions";
-        string path = Application.persistentDataPath + "/" + filename + ".csv";
-
-        StreamWriter writer = new StreamWriter(path,true);
-        string val = "" + numberOfSavedTouches;
-        writer.WriteLine(val);
-        foreach(var p in touchPositions){
-            val = "" + p;
-            writer.WriteLine(val);
-            
-        }
-        writer.Close();
+        WriteResultIntoFile.WriteHeaderOfTouchPosition();
+        WriteResultIntoFile.WriteTouchPositions(touchPositions,numberOfSavedTouches);
         numberOfSavedTouches++;
         touchPositions.Clear();
         StartCoroutine(WaitHalfSecond());
