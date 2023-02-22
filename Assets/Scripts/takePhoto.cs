@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-
+using UnityEngine.SceneManagement;
 public class takePhoto : MonoBehaviour
 {
     [SerializeField]
     private RawImage photo;
     
     [SerializeField]
-    private Button takePhotoButton;
+    private Button takePhotoButton, backToMenuButton;
 
     [SerializeField]
     private Button saveDataIntoFile;
@@ -22,12 +22,17 @@ public class takePhoto : MonoBehaviour
     private int numberOfSavedTouches = 0;
     private void Awake() {
         takePhotoButton.onClick.AddListener(getPhoto);
+        backToMenuButton.onClick.AddListener(returnToMenu);
         saveDataIntoFile.onClick.AddListener(writePositionIntoFile);
     }
     
     private void getPhoto(){
         takePhotoButton.gameObject.SetActive(false);
         StartCoroutine(WaitOneSecond());
+    }
+
+    private void returnToMenu(){
+        SceneManager.LoadScene("MainMenù");
     }
 
     private IEnumerator WaitOneSecond()
