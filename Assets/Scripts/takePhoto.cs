@@ -22,7 +22,7 @@ public class takePhoto : MonoBehaviour
     private int numberOfSavedTouches = 0;
     private void Awake() {
         takePhotoButton.onClick.AddListener(getPhoto);
-        //backToMenuButton.onClick.AddListener(returnToMenu);
+        backToMenuButton.onClick.AddListener(returnToMenu);
         saveDataIntoFile.onClick.AddListener(writePositionIntoFile);
     }
     
@@ -31,9 +31,9 @@ public class takePhoto : MonoBehaviour
         StartCoroutine(WaitOneSecond());
     }
 
-    /*private void returnToMenu(){
+    private void returnToMenu(){
         SceneManager.LoadScene("MainMenù");
-    }*/
+    }
 
     private IEnumerator WaitOneSecond()
     {
