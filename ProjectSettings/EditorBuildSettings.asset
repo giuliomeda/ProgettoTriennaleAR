@@ -14,9 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FaceTrackingMesh.unity
     guid: 5b0ca354238807649a9616e045adf2ff
-  - enabled: 0
-    path: Assets/Scenes/EarProfile1.unity
-    guid: e405c91365019b64889f21a978f62d70
   - enabled: 1
     path: Assets/Scenes/EarProfile.unity
     guid: f5585d908ab7bf6469a935e47cca9f22
