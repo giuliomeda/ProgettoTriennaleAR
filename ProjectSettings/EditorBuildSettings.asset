@@ -5,18 +5,21 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: "Assets/Scenes/MainMen\xF9.unity"
     guid: e17a96331911b6844bee8ca6fec61fa7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/RoomDimensions.unity
     guid: 8ff429f3d3d3c1240afcf1f06fade4aa
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/FaceTrackingMesh.unity
     guid: 5b0ca354238807649a9616e045adf2ff
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/EarProfile.unity
     guid: f5585d908ab7bf6469a935e47cca9f22
+  - enabled: 1
+    path: Assets/Scenes/EarAlternative(WIP).unity
+    guid: f2f7a58f31db7cf4fb63bfcb5afa57cb
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 7118bce5e9e71a94cbc2f925d4febe2a, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: b24b9844f6b13e04e9c2b76781ca0c9a, type: 2}
