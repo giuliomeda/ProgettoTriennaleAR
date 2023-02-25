@@ -21,12 +21,12 @@ public class importController : MonoBehaviour
 
     private void Awake() {
         ChooseAPictureButton.onClick.AddListener(choosePicture);
-        //backToMenuButton.onClick.AddListener(backToMenu);
+        backToMenuButton.onClick.AddListener(backToMenu);
     }
 
-    /*private void backToMenu(){
+    private void backToMenu(){
         SceneManager.LoadScene("MainMenù");
-    }*/
+    }
 
     /*private IEnumerator Wait()        //mi serviva per evitare che si vedesse lo sfondo bianco prima che l'immagine venisse importata
     {

@@ -18,6 +18,6 @@ public class MainMenù : MonoBehaviour
     }
 
     public void startEarProfileScene(){
-        SceneManager.LoadScene("EarProfile");
+        SceneManager.LoadScene("EarProfile1");
     }
 }

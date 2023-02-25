@@ -16,7 +16,7 @@ public class TouchesController : MonoBehaviour
     private Touch currentTouch = new Touch();
 
     public static bool canCheckTouches = true;
-    private int numberOfSavedTouches = 0;
+    private int numberOfSavedTouches = 1;
     private void Awake() {
         saveDataIntoFile.onClick.AddListener(writePositionIntoFile);
     }
@@ -65,8 +65,8 @@ public class TouchesController : MonoBehaviour
     private void Update() {
         if (!photo.gameObject.activeSelf || photo.texture == null)
             return;
-        if (numberOfSavedTouches == 10){
-            Application.Quit();
+        if (numberOfSavedTouches == 11){
+            SceneManager.LoadScene("MainMenù");
         }
         if(canCheckTouches){
             controlUserTouches();
