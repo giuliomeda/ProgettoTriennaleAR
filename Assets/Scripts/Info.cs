@@ -119,8 +119,8 @@ public class Info : MonoBehaviour
     public void SaveInfo()
     {
         //salva dati su file
-        WriteResultIntoFile.WriteFloat(distZ, "profondità", "FaceDimension");
-        WriteResultIntoFile.WriteFloat(distX, "distanza orecchie", "FaceDimension");
+        WriteResultIntoFile.WriteHeaderFloatFace();
+        WriteResultIntoFile.WriteFloatFace(distZ, distX, "FaceDimension");
         dataSaved = true;
     }
 
