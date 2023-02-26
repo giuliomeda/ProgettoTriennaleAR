@@ -11,6 +11,9 @@ public class importController : MonoBehaviour
     private Button ChooseAPictureButton;
 
     [SerializeField]
+    private Button TakePhotoButton;
+
+    [SerializeField]
     private GameObject InstructionPanel;
 
     [SerializeField]
@@ -21,6 +24,7 @@ public class importController : MonoBehaviour
 
     private void Awake() {
         ChooseAPictureButton.onClick.AddListener(choosePicture);
+        TakePhotoButton.onClick.AddListener(takeAPhoto);
         backToMenuButton.onClick.AddListener(backToMenu);
     }
 
@@ -40,6 +44,13 @@ public class importController : MonoBehaviour
         //StartCoroutine(Wait());
         importedImage.gameObject.SetActive(true);
     }
+
+    private void takeAPhoto(){
+        InstructionPanel.gameObject.SetActive(false);
+        TakePicture(-1);
+        importedImage.gameObject.SetActive(true);
+
+    }
     private void PickImage( int maxSize )
     {
         NativeGallery.Permission permission = NativeGallery.GetImageFromGallery( ( path ) =>
@@ -58,9 +69,35 @@ public class importController : MonoBehaviour
                     Debug.Log( "Couldn't load texture from " + path );
                     return;
                 }
+                
                 importedImage.texture = texture;
+                importedImage.texture.width = texture.width;
+                importedImage.texture.height = texture.height;
             }
         });
+
+        Debug.Log( "Permission result: " + permission );
+    }
+    private void TakePicture( int maxSize )
+    {
+        NativeCamera.Permission permission = NativeCamera.TakePicture( ( path ) =>
+        {
+            Debug.Log( "Image path: " + path );
+            if( path != null )
+            {
+                // Create a Texture2D from the captured image
+                Texture2D texture = NativeCamera.LoadImageAtPath( path, maxSize );
+                if( texture == null )
+                {
+                    Debug.Log( "Couldn't load texture from " + path );
+                    return;
+                }
+                
+                importedImage.texture = texture;
+                importedImage.texture.width = texture.width;
+                importedImage.texture.height = texture.height;
+            }
+        }, maxSize );
 
         Debug.Log( "Permission result: " + permission );
     }
