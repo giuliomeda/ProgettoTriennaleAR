@@ -47,8 +47,12 @@ public class importController : MonoBehaviour
             Debug.Log( "Image path: " + path );
             if( path != null )
             {
+                NativeGallery.ImageProperties properties = new NativeGallery.ImageProperties();
+                properties = NativeGallery.GetImageProperties(path);
                 // Create Texture from selected image
-                Texture2D texture = NativeGallery.LoadImageAtPath( path, maxSize );
+                Texture2D texture = new Texture2D (properties.width,properties.height);
+                texture = NativeGallery.LoadImageAtPath( path, maxSize, false );
+
                 if( texture == null )
                 {
                     Debug.Log( "Couldn't load texture from " + path );

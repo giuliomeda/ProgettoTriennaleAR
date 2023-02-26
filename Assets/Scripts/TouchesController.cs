@@ -46,6 +46,14 @@ public class TouchesController : MonoBehaviour
                 if (currentTouch.fingerId != previousTouch.fingerId){
                     saveDataIntoFile.gameObject.SetActive(true);
                 }
+                //prova a tracciare il tocco appena fatto dall'utente
+                /*Texture2D texture = new Texture2D (photo.texture.width,photo.texture.height);
+                texture = (Texture2D)photo.texture;
+                foreach(var p in touchPositions){
+                    texture.SetPixel((int)p.x,(int)p.y,Color.white);
+                }
+                texture.Apply();
+                photo.texture = texture;*/
                 previousTouch = currentTouch;
                 return;
             }
