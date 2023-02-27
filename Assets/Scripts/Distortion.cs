@@ -2,18 +2,36 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
 
-
 public class Distortion : MonoBehaviour
 {
-    LensDistortion m_lensdistortion;
-    public RawImage img;
-
-    void Start()
+    private PostProcessVolume m_volume;
+    private LensDistortion m_lensdistortion;
+    private void Start()
     {
-        m_lensdistortion.intensity.value = 0.0f;
-        m_lensdistortion.centerX.value = 0.5f;
-        m_lensdistortion.centerY.value = 0.5f;
-        m_lensdistortion.scale.value = 1.0f;
+        m_volume = GetComponent<PostProcessVolume>();
+        m_volume.profile.TryGetSettings(out m_lensdistortion);
 
+        /*m_lensdistortion.intensity.value = 0.0f;
+        m_lensdistortion.intensityX.value = 0.0f;
+        m_lensdistortion.intensityY.value = 0.0f;*/
+    }
+
+    public void LensDistortionOnOff(bool on)
+    {
+        if (on)
+        {
+            m_lensdistortion.active = true;
+        }
+        else
+        {
+            m_lensdistortion.active = false;
+        }
+    }
+
+    public void GeneralSettings()
+    {
+        m_lensdistortion.intensity.value = -1.0f;
+        m_lensdistortion.intensityX.value = 0.5f;
+        m_lensdistortion.intensityY.value = 0.5f;
     }
 }
