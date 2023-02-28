@@ -19,9 +19,19 @@ public class importController : MonoBehaviour
     [SerializeField]
     private RawImage importedImage;
 
+    private int rawImageOriginWidth;
+    private int rawImageOriginHeight;
+
     [SerializeField]
     private Button backToMenuButton;
 
+
+    private void Start() {
+        RectTransform rt = importedImage.GetComponent<RectTransform>();
+        // get the rect size as base size for the upcomming video
+        rawImageOriginWidth = Mathf.RoundToInt(rt.rect.width);
+        rawImageOriginHeight = Mathf.RoundToInt(rt.rect.height);
+    }
     private void Awake() {
         ChooseAPictureButton.onClick.AddListener(choosePicture);
         TakePhotoButton.onClick.AddListener(takeAPhoto);
@@ -70,9 +80,12 @@ public class importController : MonoBehaviour
                     return;
                 }
                 
+                int[] scaledTexture;
+                scaledTexture = scaleResolution(texture.width,texture.height,rawImageOriginWidth,rawImageOriginHeight);
+                importedImage.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, scaledTexture[0]);
+                importedImage.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, scaledTexture[1]);
                 importedImage.texture = texture;
-                importedImage.texture.width = texture.width;
-                importedImage.texture.height = texture.height;
+
             }
         });
 
@@ -92,13 +105,35 @@ public class importController : MonoBehaviour
                     Debug.Log( "Couldn't load texture from " + path );
                     return;
                 }
-                
+
+                int[] scaledTexture;
+                scaledTexture = scaleResolution(texture.width,texture.height,rawImageOriginWidth,rawImageOriginHeight);
+                importedImage.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, scaledTexture[0]);
+                importedImage.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, scaledTexture[1]);
                 importedImage.texture = texture;
-                importedImage.texture.width = texture.width;
-                importedImage.texture.height = texture.height;
+                
             }
         }, maxSize );
 
         Debug.Log( "Permission result: " + permission );
+    }
+    int[] scaleResolution(int width, int heigth, int maxWidth, int maxHeight)
+    {
+        int new_width = width;
+        int new_height = heigth;
+
+        if (width > heigth)
+        {
+            new_width = maxWidth;
+            new_height = (new_width * heigth) / width;
+        }
+        else
+        {
+            new_height = maxHeight;
+            new_width = (new_height * width) / heigth;
+        }
+
+        int[] dimension = { new_width, new_height };
+        return dimension;
     }
 }
