@@ -19,6 +19,9 @@ public class importController : MonoBehaviour
     [SerializeField]
     private RawImage importedImage;
 
+    [SerializeField]
+    private AspectRatioFitter fit;
+
     private int rawImageOriginWidth;
     private int rawImageOriginHeight;
 
@@ -80,10 +83,13 @@ public class importController : MonoBehaviour
                     return;
                 }
                 
-                int[] scaledTexture;
+                /*int[] scaledTexture;
                 scaledTexture = scaleResolution(texture.width,texture.height,rawImageOriginWidth,rawImageOriginHeight);
                 importedImage.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, scaledTexture[0]);
                 importedImage.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, scaledTexture[1]);
+                importedImage.texture = texture;*/
+                float ratio = (float)texture.width / (float)texture.height;
+                fit.aspectRatio = ratio;
                 importedImage.texture = texture;
 
             }
@@ -106,11 +112,15 @@ public class importController : MonoBehaviour
                     return;
                 }
 
-                int[] scaledTexture;
+                /*int[] scaledTexture;
                 scaledTexture = scaleResolution(texture.width,texture.height,rawImageOriginWidth,rawImageOriginHeight);
                 importedImage.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, scaledTexture[0]);
                 importedImage.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, scaledTexture[1]);
+                importedImage.texture = texture;*/
+                float ratio = (float)texture.width / (float)texture.height;
+                fit.aspectRatio = ratio;
                 importedImage.texture = texture;
+
                 
             }
         }, maxSize );

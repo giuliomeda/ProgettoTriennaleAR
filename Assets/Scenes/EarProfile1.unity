@@ -1135,6 +1135,7 @@ MonoBehaviour:
   TakePhotoButton: {fileID: 123280155}
   InstructionPanel: {fileID: 354569687}
   importedImage: {fileID: 963189043}
+  fit: {fileID: 963189045}
   backToMenuButton: {fileID: 1245859671}
 --- !u!4 &543809266
 Transform:
@@ -1648,6 +1649,7 @@ GameObject:
   - component: {fileID: 963189042}
   - component: {fileID: 963189044}
   - component: {fileID: 963189043}
+  - component: {fileID: 963189045}
   m_Layer: 5
   m_Name: ImportedImage
   m_TagString: Untagged
@@ -1710,6 +1712,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963189041}
   m_CullTransparentMesh: 1
+--- !u!114 &963189045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963189041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 2
+  m_AspectRatio: 1
 --- !u!1 &1079637101
 GameObject:
   m_ObjectHideFlags: 0
