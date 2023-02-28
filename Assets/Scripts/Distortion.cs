@@ -10,10 +10,6 @@ public class Distortion : MonoBehaviour
     {
         m_volume = GetComponent<PostProcessVolume>();
         m_volume.profile.TryGetSettings(out m_lensdistortion);
-
-        /*m_lensdistortion.intensity.value = 0.0f;
-        m_lensdistortion.intensityX.value = 0.0f;
-        m_lensdistortion.intensityY.value = 0.0f;*/
     }
 
     public void LensDistortionOnOff(bool on)
