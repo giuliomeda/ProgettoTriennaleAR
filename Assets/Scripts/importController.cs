@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.IO;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class importController : MonoBehaviour
 {
+    public static bool TextureIsSet = false;
+
     [SerializeField]
     private Button ChooseAPictureButton;
 
@@ -17,24 +18,12 @@ public class importController : MonoBehaviour
     private GameObject InstructionPanel;
 
     [SerializeField]
-    private RawImage importedImage;
-
-    [SerializeField]
-    private AspectRatioFitter fit;
-
-    private int rawImageOriginWidth;
-    private int rawImageOriginHeight;
-
-    [SerializeField]
     private Button backToMenuButton;
 
+    [SerializeField]
+    private GameObject imageGameObject;
 
-    private void Start() {
-        RectTransform rt = importedImage.GetComponent<RectTransform>();
-        // get the rect size as base size for the upcomming video
-        rawImageOriginWidth = Mathf.RoundToInt(rt.rect.width);
-        rawImageOriginHeight = Mathf.RoundToInt(rt.rect.height);
-    }
+
     private void Awake() {
         ChooseAPictureButton.onClick.AddListener(choosePicture);
         TakePhotoButton.onClick.AddListener(takeAPhoto);
@@ -42,26 +31,20 @@ public class importController : MonoBehaviour
     }
 
     private void backToMenu(){
+        TextureIsSet = false;
         SceneManager.LoadScene("MainMenù");
     }
-
-    /*private IEnumerator Wait()        //mi serviva per evitare che si vedesse lo sfondo bianco prima che l'immagine venisse importata
-    {
-        yield return new WaitForSeconds(2f);
-        importedImage.gameObject.SetActive(true);
-
-    }*/
     private void choosePicture(){
         InstructionPanel.gameObject.SetActive(false);
         PickImage(-1);
         //StartCoroutine(Wait());
-        importedImage.gameObject.SetActive(true);
+        imageGameObject.gameObject.SetActive(true);
     }
 
     private void takeAPhoto(){
         InstructionPanel.gameObject.SetActive(false);
         TakePicture(-1);
-        importedImage.gameObject.SetActive(true);
+        imageGameObject.gameObject.SetActive(true);
 
     }
     private void PickImage( int maxSize )
@@ -83,14 +66,16 @@ public class importController : MonoBehaviour
                     return;
                 }
                 
-                /*int[] scaledTexture;
-                scaledTexture = scaleResolution(texture.width,texture.height,rawImageOriginWidth,rawImageOriginHeight);
-                importedImage.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, scaledTexture[0]);
-                importedImage.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, scaledTexture[1]);
-                importedImage.texture = texture;*/
-                float ratio = (float)texture.width / (float)texture.height;
-                fit.aspectRatio = ratio;
-                importedImage.texture = texture;
+			    imageGameObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2.5f;
+			    imageGameObject.transform.forward = Camera.main.transform.forward;
+			    imageGameObject.transform.localScale = new Vector3( 1f, texture.height / (float) texture.width, 1f );
+
+			    Material material = imageGameObject.GetComponent<Renderer>().material;
+			    if( !material.shader.isSupported ) // happens when Standard shader is not included in the build
+				    material.shader = Shader.Find( "Legacy Shaders/Diffuse" );
+
+			    material.mainTexture = texture;
+                TextureIsSet = true;
 
             }
         });
@@ -111,15 +96,17 @@ public class importController : MonoBehaviour
                     Debug.Log( "Couldn't load texture from " + path );
                     return;
                 }
+                
+			    imageGameObject.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2.5f;
+			    imageGameObject.transform.forward = Camera.main.transform.forward;
+			    imageGameObject.transform.localScale = new Vector3( 1f, texture.height / (float) texture.width, 1f );
 
-                /*int[] scaledTexture;
-                scaledTexture = scaleResolution(texture.width,texture.height,rawImageOriginWidth,rawImageOriginHeight);
-                importedImage.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, scaledTexture[0]);
-                importedImage.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, scaledTexture[1]);
-                importedImage.texture = texture;*/
-                float ratio = (float)texture.width / (float)texture.height;
-                fit.aspectRatio = ratio;
-                importedImage.texture = texture;
+			    Material material = imageGameObject.GetComponent<Renderer>().material;
+			    if( !material.shader.isSupported ) // happens when Standard shader is not included in the build
+				    material.shader = Shader.Find( "Legacy Shaders/Diffuse" );
+
+			    material.mainTexture = texture;
+                TextureIsSet = true;
 
                 
             }
@@ -127,23 +114,5 @@ public class importController : MonoBehaviour
 
         Debug.Log( "Permission result: " + permission );
     }
-    int[] scaleResolution(int width, int heigth, int maxWidth, int maxHeight)
-    {
-        int new_width = width;
-        int new_height = heigth;
-
-        if (width > heigth)
-        {
-            new_width = maxWidth;
-            new_height = (new_width * heigth) / width;
-        }
-        else
-        {
-            new_height = maxHeight;
-            new_width = (new_height * width) / heigth;
-        }
-
-        int[] dimension = { new_width, new_height };
-        return dimension;
-    }
+    
 }
