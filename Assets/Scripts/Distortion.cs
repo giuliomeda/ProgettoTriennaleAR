@@ -39,6 +39,10 @@ public class Distortion : MonoBehaviour
     public void UpdateSettingsOne()
     {
         //4.30mm
+
+        ModeOneButton.gameObject.SetActive(false);
+        ModeTwoButton.gameObject.SetActive(false);
+
         m_lensdistortion.intensity.value = -1.0f;
         m_lensdistortion.yMultiplier.value = 0.05f;
         m_lensdistortion.xMultiplier.value = 0.25f;
@@ -47,6 +51,10 @@ public class Distortion : MonoBehaviour
     public void UpdateSettingsTwo()
     {
         //26mm
+
+        ModeOneButton.gameObject.SetActive(false);
+        ModeTwoButton.gameObject.SetActive(false);
+
         m_lensdistortion.intensity.value = -1.0f;
         m_lensdistortion.yMultiplier.value = 0.1f;
         m_lensdistortion.xMultiplier.value = 0.1f;
