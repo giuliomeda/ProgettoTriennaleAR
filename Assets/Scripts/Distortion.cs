@@ -9,6 +9,7 @@ public class Distortion : MonoBehaviour
 
     [SerializeField] private Button ModeOneButton;
     [SerializeField] private Button ModeTwoButton;
+    private int i = 0;
 
     private Volume m_volume;
     private LensDistortion m_lensdistortion;
@@ -25,8 +26,9 @@ public class Distortion : MonoBehaviour
 
     private void Update()
     {
-        if (ImageQuad.activeSelf == true)
+        if (ImageQuad.activeSelf == true && i<1)
         {
+            i++;
             ModeOneButton.gameObject.SetActive(true);
             ModeTwoButton.gameObject.SetActive(true);
         }
