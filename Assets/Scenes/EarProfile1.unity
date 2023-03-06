@@ -2288,8 +2288,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImageQuad: {fileID: 808074684}
-  ModeOneButton: {fileID: 1845754010}
-  ModeTwoButton: {fileID: 0}
+  ModeOneButton: {fileID: 874122277}
+  ModeTwoButton: {fileID: 1845754010}
 --- !u!114 &1337920738
 MonoBehaviour:
   m_ObjectHideFlags: 0
