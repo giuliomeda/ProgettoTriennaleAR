@@ -16,6 +16,7 @@ public class TouchesController : MonoBehaviour
     private Touch currentTouch = new Touch();
 
     public static bool canCheckTouches = true;
+    public static bool isFovChosen = false;
     private int numberOfSavedTouches = 1;
     private void Awake() {
         saveDataIntoFile.onClick.AddListener(writePositionIntoFile);
@@ -69,7 +70,7 @@ public class TouchesController : MonoBehaviour
         if (numberOfSavedTouches == 11){
             SceneManager.LoadScene("MainMenù");
         }
-        if(canCheckTouches){
+        if(canCheckTouches && isFovChosen){
             controlUserTouches();
         }
     
