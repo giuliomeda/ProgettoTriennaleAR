@@ -5,10 +5,10 @@ using UnityEngine.Rendering.Universal;
 
 public class Distortion : MonoBehaviour
 {
-    private GameObject ImageQuad;
+    [SerializeField]private GameObject ImageQuad;
 
-    private Button ModeOneButton;
-    private Button ModeTwoButton;
+    [SerializeField] private Button ModeOneButton;
+    [SerializeField] private Button ModeTwoButton;
 
     private Volume m_volume;
     private LensDistortion m_lensdistortion;
@@ -17,6 +17,8 @@ public class Distortion : MonoBehaviour
     {
         ModeOneButton.onClick.AddListener(UpdateSettingsOne);
         ModeTwoButton.onClick.AddListener(UpdateSettingsTwo);
+        ModeOneButton.gameObject.SetActive(false);
+        ModeTwoButton.gameObject.SetActive(false);
 
         m_volume = GetComponent<Volume>();
         m_volume.profile.TryGet(out m_lensdistortion);

@@ -2287,6 +2287,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0635e22fe11fd444d9fb0ff415156a6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ImageQuad: {fileID: 808074684}
+  ModeOneButton: {fileID: 1845754010}
+  ModeTwoButton: {fileID: 0}
 --- !u!114 &1337920738
 MonoBehaviour:
   m_ObjectHideFlags: 0
