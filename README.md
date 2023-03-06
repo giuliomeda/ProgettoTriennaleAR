@@ -1,2 +1,3 @@
-# ProgettoTriennaleAR
-Applicazione di realtà aumentata volta a ricavare le dimensioni di una stanza utilizzando il framework AR Foundation di Unity.
+
+# Modellazione multimodale di ambienti indoor e testa umana per applicazioni di realtà aumentata:
+Creazione di una libreria da utilizzare con il software Unity3D che, utilizzando funzionalità di realtà aumentata, integrate nei dispositivi smartphone e tablet di ultima generazione, rilevi i principali parametri di un ambiente indoor in cui opera un agente sia esso umano o non (dimensioni della stanza, volume, posizione e caratteristiche dell’agente, ecc.) e le principali dimensioni di una testa umana (distanza fronte-mento e distanza orecchio destro-orecchio sinistro) configurando poi in maniera automatica un ambiente virtuale acustico simile a quello reale. Tale libreria andrebbe ad aggiungere nuove funzionalità ad un sistema già esistente per la creazione di realtà mista, da utilizzare in differenti case study (interazione uomo-robot, social virtual/augmented reality, ecc.) 
