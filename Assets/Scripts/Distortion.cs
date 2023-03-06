@@ -17,8 +17,6 @@ public class Distortion : MonoBehaviour
     {
         ModeOneButton.onClick.AddListener(UpdateSettingsOne);
         ModeTwoButton.onClick.AddListener(UpdateSettingsTwo);
-        ModeOneButton.gameObject.SetActive(false);
-        ModeTwoButton.gameObject.SetActive(false);
 
         m_volume = GetComponent<Volume>();
         m_volume.profile.TryGet(out m_lensdistortion);
