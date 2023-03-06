@@ -45,9 +45,9 @@ public class Distortion : MonoBehaviour
         ModeOneButton.gameObject.SetActive(false);
         ModeTwoButton.gameObject.SetActive(false);
 
-        m_lensdistortion.intensity.value = -1.0f;
-        m_lensdistortion.yMultiplier.value = 0.05f;
-        m_lensdistortion.xMultiplier.value = 0.25f;
+        m_lensdistortion.intensity.value = -0.5f;
+        m_lensdistortion.yMultiplier.value = 0.5f;
+        m_lensdistortion.xMultiplier.value = 0.2f;
     }
 
     public void UpdateSettingsTwo()
@@ -57,8 +57,8 @@ public class Distortion : MonoBehaviour
         ModeOneButton.gameObject.SetActive(false);
         ModeTwoButton.gameObject.SetActive(false);
 
-        m_lensdistortion.intensity.value = -1.0f;
-        m_lensdistortion.yMultiplier.value = 0.1f;
-        m_lensdistortion.xMultiplier.value = 0.1f;
+        m_lensdistortion.intensity.value = -0.5f;
+        m_lensdistortion.yMultiplier.value = 1.0f;
+        m_lensdistortion.xMultiplier.value = 0.2f;
     }
 }
